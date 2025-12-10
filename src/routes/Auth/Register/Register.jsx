@@ -1,6 +1,6 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import useAuth from '../../../hooks/useAuth';
+import useAuth from '../../../Hooks/useAuth';
 import { FcGoogle } from "react-icons/fc"; // Google icon
 import { FaUserCircle } from "react-icons/fa"; // User icon
 
@@ -60,7 +60,7 @@ const Register = () => {
         </div>
 
         <form onSubmit={handleSubmit(handleRegistration)} className="space-y-4">
-          
+
           {/* Name */}
           <div>
             <label className="label">
@@ -110,7 +110,7 @@ const Register = () => {
           </div>
 
           {/* Register Button */}
-          <button 
+          <button
             type="submit"
             className="w-full h-12 text-gray-800 font-semibold rounded-lg bg-[#b5e879] hover:bg-[#a9db71] transition-colors mt-6"
           >
@@ -122,15 +122,15 @@ const Register = () => {
         {/* Login Link & Google */}
         <div className="flex flex-col items-center mt-6">
           <p className="text-sm text-gray-600">
-            Already have an account? 
+            Already have an account?
             <a href="/login" className="ml-1 font-semibold text-lime-600 hover:underline">Login</a>
           </p>
 
           <div className="divider text-gray-400 my-4">Or</div>
 
           {/* Google Register Button */}
-          <button 
-            onClick={handleGoogleRegister} 
+          <button
+            onClick={handleGoogleRegister}
             className="btn w-full text-base border-gray-300 bg-gray-50 text-gray-700 hover:bg-gray-100"
           >
             <FcGoogle className="text-xl mr-2" />

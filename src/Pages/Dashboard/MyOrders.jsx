@@ -1,7 +1,8 @@
 // src/Pages/UserDashboard/MyOrders.jsx
 import React, { useEffect, useState, useContext } from "react";
-import { AuthContext } from "../../Context/AuthContext/AuthProvider";
+
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../Context/AuthContext/AuthContext";
 
 const MyOrders = () => {
   const { user } = useContext(AuthContext);

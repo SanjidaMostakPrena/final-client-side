@@ -1,6 +1,6 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import useAuth from "../../../hooks/useAuth";
+import useAuth from "../../../Hooks/useAuth";
 import { FcGoogle } from "react-icons/fc";
 
 const Login = () => {
@@ -26,7 +26,7 @@ const Login = () => {
         alert(error.message);
       });
   };
-  
+
   const handleGoogleLogin = () => {
     signInWithGoogle()
       .then((result) => {
@@ -55,7 +55,7 @@ const Login = () => {
             <input
               type="email"
               {...register("email", { required: true })}
-              className="input input-bordered w-full h-12" 
+              className="input input-bordered w-full h-12"
               placeholder="Email"
             />
             {errors.email && (
@@ -87,8 +87,8 @@ const Login = () => {
           </div>
 
           {/* Login Button */}
-          <button 
-            type="submit" 
+          <button
+            type="submit"
             className="w-full h-12 text-gray-800 font-semibold rounded-lg bg-[#b5e879] hover:bg-[#a9db71] transition-colors mt-6"
           >
             Login
@@ -98,7 +98,7 @@ const Login = () => {
         {/* Register Link & Google */}
         <div className="flex flex-col items-center mt-6">
           <p className="text-sm text-gray-600">
-            Don't have any account? 
+            Don't have any account?
             <a href="/register" className="ml-1 font-semibold text-lime-600 hover:underline">
               Register
             </a>
@@ -107,8 +107,8 @@ const Login = () => {
           <div className="divider text-gray-400 my-4">Or</div>
 
           {/* Google Login Button */}
-          <button 
-            onClick={handleGoogleLogin} 
+          <button
+            onClick={handleGoogleLogin}
             className="btn w-full text-base border-gray-300 bg-gray-50 text-gray-700 hover:bg-gray-100"
           >
             <FcGoogle className="text-xl mr-2" />

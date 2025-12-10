@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import { useLoaderData, useRouteError } from "react-router";
-import { AuthContext } from "../../Context/AuthContext/AuthProvider";
+import { AuthContext } from "../../Context/AuthContext/AuthContext";
 
 const BookDetails = () => {
   const book = useLoaderData();

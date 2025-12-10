@@ -1,7 +1,7 @@
-import React, { useContext } from 'react';
 import Logo from '../../../../Components/logo/logo';
-import { NavLink } from 'react-router';
-import { AuthContext } from '../../../../Context/AuthContext/AuthProvider.jsx';
+import { NavLink } from 'react-router-dom';
+import { useContext } from 'react';
+import { AuthContext } from '../../../../Context/AuthContext/AuthContext';
 
 const Navbar = () => {
   const { user, logout } = useContext(AuthContext);
@@ -95,7 +95,7 @@ const Navbar = () => {
         <ul className="menu menu-horizontal px-1">{links}</ul>
       </div>
 
-      {/* Right Section: Auth + Dashboard */}
+      {/* Right Section: Auth + Dashboard + My Orders + Add Book */}
       <div className="navbar-end flex items-center gap-3">
         {user && user.photoURL && (
           <img
@@ -106,18 +106,23 @@ const Navbar = () => {
         )}
 
         {user ? (
-          <button onClick={handleLogout} className="btn btn-error text-white">
-            Logout
-          </button>
+          <>
+            <NavLink to="/dashboard/my-orders" className="btn btn-secondary text-black">
+              My Orders
+            </NavLink>
+            <NavLink to="/add-book" className="btn btn-accent text-black">
+              Add Book
+            </NavLink>
+            <NavLink to="/dashboard" className="btn btn-primary text-black">
+              Dashboard
+            </NavLink>
+            <button onClick={handleLogout} className="btn btn-error text-white">
+              Logout
+            </button>
+          </>
         ) : (
           <NavLink to="/login" className="btn btn-outline">
             Login
-          </NavLink>
-        )}
-
-        {user && (
-          <NavLink to="/dashboard" className="btn btn-primary text-black">
-            Dashboard
           </NavLink>
         )}
       </div>
