@@ -9,10 +9,12 @@ import Register from './Auth/Register/Register';
 import AllBooks from '../Pages/AllBooks/AllBooks';
 import BookDetails from '../Pages/BookDetails/BookDetails';
 import AddBook from '../Pages/Home/Shared/AddBook/AddBook';
-import DashboardLayout from '../Layout/DashboardLayout';
-import MyBook from '../Pages/Dashboard/MyBook';
 import MyOrders from '../Pages/Dashboard/MyOrders'; // new page
 import PrivateRoute from './PrivateRoute';
+import Invoices from '../Pages/Dashboard/Invoices';
+import MyProfile from '../Pages/Dashboard/MyProfile';
+import MyBook from '../Pages/Dashboard/MyBook';
+import DashboardLayout from '../Layout/DashboardLayout';
 
 export const router = createBrowserRouter([
   {
@@ -69,8 +71,10 @@ export const router = createBrowserRouter([
       </PrivateRoute>
     ),
     children: [
-      { path: 'my-book', element: <MyBook /> },
-      { path: 'my-orders', element: <MyOrders /> }, // added route for My Orders
+      { path: 'my-book', element: <MyBook/> },
+      { path: 'my-orders', element: <MyOrders /> },
+      { path: 'my-profile', element: <MyProfile></MyProfile> } ,
+      { path: 'invoices', element: <Invoices/> }// added route for My Orders
     ],
   },
 ]);

@@ -3,15 +3,10 @@ import { useForm } from 'react-hook-form';
 import useAuth from '../../../../Hooks/useAuth';
 
 
-const AddBook = () => {
-    const { user } = useAuth(); // get logged-in librarian info
-    const { register, handleSubmit, reset, formState: { errors } } = useForm();
-
-    const handleAddBook = (data) => {
-        console.log("Book Data:", data);
-        alert("Book added successfully!");
-        reset(); // clear form after submission
-    };
+const AddBook = () => { const { user } = useAuth(); // logged-in librarian info 
+const { register, handleSubmit, reset, formState: { errors } } = useForm(); const handleAddBook = async (data) => { try { // Append the librarian email 
+const bookData = { ...data, addedBy: user.email, }; // Send to backend
+ const res = await fetch('http://localhost:3000/librarian/books', { method: 'POST', headers: { 'Content-Type': 'application/json', }, body: JSON.stringify(bookData), }); const result = await res.json(); if (res.ok) { alert('Book added successfully!'); reset(); } else { alert('Failed to add book: ' + (result.error || 'Unknown error')); } } catch (err) { console.error(err); alert('Error adding book. Check console.'); } };
 
     return (
         <div className="max-w-4xl mx-auto p-8 bg-white shadow-xl rounded-lg">
