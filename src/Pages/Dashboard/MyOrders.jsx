@@ -1,112 +1,119 @@
-// src/Pages/UserDashboard/MyOrders.jsx
-import React, { useEffect, useState, useContext } from "react";
-
-import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../../Context/AuthContext/AuthContext";
+import React from "react";
+import { Link } from "react-router-dom";
+import useAuth from "../../Hooks/useAuth";
+import { useQuery } from "@tanstack/react-query";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const MyOrders = () => {
-  const { user } = useContext(AuthContext);
-  const [orders, setOrders] = useState([]);
-  const navigate = useNavigate();
+  const { user } = useAuth();
+  const axiosSecure = useAxiosSecure();
 
-  const fetchOrders = async () => {
-    try {
-      const res = await fetch(`http://localhost:3000/orders?email=${user.email}`);
-      const data = await res.json();
-      setOrders(data);
-    } catch (error) {
-      console.error("Failed to fetch orders", error);
-    }
-  };
+  // Fetch user's orders from backend
+  const {
+    data: orders = [],
+    refetch,
+    isLoading,
+  } = useQuery({
+    queryKey: ["orders", user?.email],
+    enabled: !!user?.email,
+    queryFn: async () => {
+      const res = await axiosSecure.get(`/user/orders/${user.email}`);
+      return res.data;
+    },
+  });
 
-  useEffect(() => {
-    if (user?.email) fetchOrders();
-  }, [user]);
-
+  // Handle order cancellation
   const handleCancel = async (orderId) => {
     try {
-      const res = await fetch(`http://localhost:3000/orders/${orderId}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ status: "cancelled" }),
-      });
-
-      if (res.ok) {
+      // <-- FIXED PATCH URL -->
+      const res = await axiosSecure.patch(`/orders/cancel/${orderId}`);
+      if (res.data.modifiedCount > 0) {
         alert("Order cancelled successfully");
-        fetchOrders();
+        refetch(); // Refresh the orders so UI updates
+      } else {
+        alert("Failed to cancel the order");
       }
-    } catch (error) {
-      console.error(error);
+    } catch (err) {
+      console.error(err);
+      alert("Error cancelling the order");
     }
   };
 
-  const handlePay = (orderId) => {
-    navigate(`/payment/${orderId}`);
-  };
-
-  const getStatusColor = (status) => {
-    switch (status.toLowerCase()) {
-      case "pending": return "text-orange-500";
-      case "delivered": return "text-green-500";
-      case "cancelled": return "text-red-500";
-      case "refunded": return "text-purple-500";
-      default: return "text-gray-500";
-    }
-  };
-
-  const getPaymentColor = (payment) => {
-    return payment.toLowerCase() === "paid" ? "text-green-500" : "text-red-500";
-  };
+  if (isLoading) return <p>Loading your orders...</p>;
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-10">
-      <h1 className="text-3xl font-bold mb-6">My Orders</h1>
-      <div className="overflow-x-auto">
-        <table className="min-w-full border rounded-lg bg-white">
-          <thead className="bg-gray-100">
-            <tr>
-              <th className="py-3 px-6 text-left">Book Title</th>
-              <th className="py-3 px-6 text-left">Order Date</th>
-              <th className="py-3 px-6 text-left">Status</th>
-              <th className="py-3 px-6 text-left">Payment</th>
-              <th className="py-3 px-6 text-left">Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {orders.map((order) => (
-              <tr key={order._id} className="border-b hover:bg-gray-50">
-                <td className="py-3 px-6">{order.bookTitle}</td>
-                <td className="py-3 px-6">{new Date(order.createdAt).toLocaleDateString()}</td>
-                <td className={`py-3 px-6 font-semibold ${getStatusColor(order.status)}`}>{order.status}</td>
-                <td className={`py-3 px-6 font-semibold ${getPaymentColor(order.paymentStatus)}`}>{order.paymentStatus}</td>
-                <td className="py-3 px-6 flex gap-2">
-                  {order.status === "pending" && (
-                    <>
-                      <button
-                        onClick={() => handleCancel(order._id)}
-                        className="py-1 px-3 bg-red-500 text-white rounded hover:bg-red-600"
-                      >
-                        Cancel
-                      </button>
-                      {order.paymentStatus === "unpaid" && (
+    <div className="p-5">
+      <h2 className="text-2xl font-bold mb-5">My Orders</h2>
+
+      {orders.length === 0 ? (
+        <p>No orders found.</p>
+      ) : (
+        <div className="overflow-x-auto">
+          <table className="table w-full">
+            <thead>
+              <tr className="bg-gray-200">
+                <th>#</th>
+                <th>Book Title</th>
+                <th>Order Date</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {orders.map((order, index) => (
+                <tr key={order._id}>
+                  <td>{index + 1}</td>
+                  <td>{order.bookTitle}</td>
+                  <td>
+                    {order.date
+                      ? new Date(order.date).toLocaleDateString()
+                      : "N/A"}
+                  </td>
+                  <td>
+                    <span
+                      className={`badge ${
+                        order.status === "pending"
+                          ? "badge-warning"
+                          : order.status === "paid"
+                          ? "badge-success"
+                          : "badge-error"
+                      }`}
+                    >
+                      {order.status}
+                    </span>
+                  </td>
+
+                  <td className="flex gap-3">
+                    {order.status === "pending" && (
+                      <>
                         <button
-                          onClick={() => handlePay(order._id)}
-                          className="py-1 px-3 bg-blue-500 text-white rounded hover:bg-blue-600"
+                          className="btn btn-sm btn-error"
+                          onClick={() => handleCancel(order._id)}
+                        >
+                          Cancel
+                        </button>
+                        <Link
+                          to={`/dashboard/payment/${order._id}`}
+                          className="btn btn-sm btn-primary"
                         >
                           Pay Now
-                        </button>
-                      )}
-                    </>
-                  )}
-                  {(order.status !== "pending" || order.paymentStatus === "paid") && (
-                    <span className="text-gray-400">No actions</span>
-                  )}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+                        </Link>
+                      </>
+                    )}
+
+                    {order.status !== "pending" && (
+                      <span className="text-gray-500 italic">
+                        No Actions Available
+                      </span>
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
     </div>
   );
 };

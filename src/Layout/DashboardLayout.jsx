@@ -42,11 +42,16 @@ const DashboardLayout = () => {
             </li>
 
             {/* Role-based links */}
-            {user?.role === "user" && (
+            
               <>
                 <li>
                   <NavLink to="/dashboard/my-orders" className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="My Orders">
                     <span className="is-drawer-close:hidden">My Orders</span>
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink to="/dashboard/my-profile" className="is-drawer-close:tooltip is-drawer-close:tooltip-right" data-tip="Invoices">
+                    <span className="is-drawer-close:hidden">My Profile</span>
                   </NavLink>
                 </li>
                 <li>
@@ -55,7 +60,7 @@ const DashboardLayout = () => {
                   </NavLink>
                 </li>
               </>
-            )}
+            
 
             {user?.role === "librarian" && (
               <>

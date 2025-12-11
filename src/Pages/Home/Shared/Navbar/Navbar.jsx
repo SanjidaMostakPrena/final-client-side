@@ -107,7 +107,7 @@ const Navbar = () => {
 
         {user ? (
           <>
-            <NavLink to="/dashboard/my-orders" className="btn btn-secondary text-black">
+            <NavLink to="/dashboard/my-orders" className="btn btn-accent text-black">
               My Orders
             </NavLink>
             <NavLink to="/add-book" className="btn btn-accent text-black">
