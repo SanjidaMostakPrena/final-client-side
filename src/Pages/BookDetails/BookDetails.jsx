@@ -13,23 +13,31 @@ const BookDetails = () => {
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
 
+  // Fetch book details from backend
   const { data: book, isLoading, isError, error } = useQuery({
     queryKey: ["book", id],
     queryFn: async () => {
-      const res = await axiosSecure.get(`/books/custom/${id}`);
-      return res.data;
+      try {
+        const res = await axiosSecure.get(`/books/custom/${id}`);
+        return res.data;
+      } catch (err) {
+        throw new Error(err.response?.data?.message || "Failed to fetch book details");
+      }
     },
+    retry: false, // prevent auto retries
   });
 
+  // Handle order placement
   const handlePlaceOrder = async () => {
+    if (!user) return alert("You must be logged in to place an order");
     if (!phone || !address) return alert("Please fill all fields!");
 
     const orderData = {
-      bookId: book.id,
-      bookTitle: book.bookName,
-      userId: user.id,
-      userName: user.name,
-      userEmail: user.email,
+      bookId: book?.id,
+      bookTitle: book?.bookName,
+      userId: user?.uid,
+      userName: user?.name,
+      userEmail: user?.email,
       phone,
       address,
       status: "pending",
@@ -42,6 +50,8 @@ const BookDetails = () => {
       if (res.data.insertedId) {
         alert("Order placed successfully!");
         navigate("/dashboard/my-orders");
+      } else {
+        alert("Failed to place order");
       }
     } catch (err) {
       console.error(err);
@@ -49,8 +59,10 @@ const BookDetails = () => {
     }
   };
 
+  // Loading and error states
   if (isLoading) return <p className="p-5">Loading book details...</p>;
   if (isError) return <p className="p-5 text-red-500">{error.message}</p>;
+  if (!book) return <p className="p-5 text-red-500">Book not found</p>;
 
   return (
     <div className="max-w-3xl mx-auto p-5">
@@ -60,8 +72,18 @@ const BookDetails = () => {
 
       <h2 className="text-xl font-semibold mb-2">Place Order</h2>
       <div className="flex flex-col gap-3 max-w-md">
-        <input type="text" value={user.name} disabled className="input input-bordered" />
-        <input type="email" value={user.email} disabled className="input input-bordered" />
+        <input
+          type="text"
+          value={user?.name || ""}
+          disabled
+          className="input input-bordered"
+        />
+        <input
+          type="email"
+          value={user?.email || ""}
+          disabled
+          className="input input-bordered"
+        />
         <input
           type="text"
           placeholder="Phone"

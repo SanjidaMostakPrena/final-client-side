@@ -30,8 +30,11 @@ export const router = createBrowserRouter([
         path: "books",
         element: <AllBooks />,
         loader: async () => {
-          const res = await fetch("http://localhost:3000/books");
-          return res.json();
+  const res = await fetch("http://localhost:5000/books"); // <-- correct port
+  if (!res.ok) throw new Error("Failed to fetch books");
+  return res.json();
+
+
         },
       },
       { path: "books/:id", element: <BookDetails /> },

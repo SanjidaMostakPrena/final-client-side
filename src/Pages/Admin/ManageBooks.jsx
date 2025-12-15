@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 const ManageBooks = () => {
   const [books, setBooks] = useState([]);
 
-  // Fetch all books
+  
   useEffect(() => {
     fetch("http://localhost:3000/books")
       .then((res) => res.json())
@@ -11,7 +11,6 @@ const ManageBooks = () => {
       .catch((err) => console.error(err));
   }, []);
 
-  // Publish / Unpublish a book
   const togglePublish = (bookId, currentStatus) => {
     const newStatus = currentStatus === "published" ? "unpublished" : "published";
 

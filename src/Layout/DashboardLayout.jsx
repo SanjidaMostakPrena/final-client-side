@@ -44,8 +44,11 @@ const DashboardLayout = () => {
               <path d="M14 10l2 2l-2 2"></path>
             </svg>
           </label>
-          <div className="px-4">Dashboard</div>
+          <h2 className="font-bold text-lg mb-4">
+            {role === "admin" ? "Admin Panel" : "User Panel"}
+          </h2>
         </nav>
+        
 
         {/* Page content */}
         <Outlet />

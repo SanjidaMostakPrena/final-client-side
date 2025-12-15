@@ -1,21 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
+import { FaBook, FaMoneyBillWave, FaCheckCircle } from "react-icons/fa";
 
 const Payment = () => {
-  const { id } = useParams(); // Order ID
+  const { id } = useParams();
   const navigate = useNavigate();
+  const axiosSecure = useAxiosSecure();
+
   const [order, setOrder] = useState(null);
   const [loading, setLoading] = useState(true);
   const [processing, setProcessing] = useState(false);
 
-  // Fetch the order details
   useEffect(() => {
     const fetchOrder = async () => {
       try {
-        const res = await fetch(`http://localhost:3000/orders/${id}`);
-        if (!res.ok) throw new Error("Order not found");
-        const data = await res.json();
-        setOrder(data);
+        const res = await axiosSecure.get(`/orders/${id}`);
+        setOrder(res.data);
       } catch (err) {
         console.error(err);
         alert("Failed to load order.");
@@ -25,28 +26,24 @@ const Payment = () => {
     };
 
     fetchOrder();
-  }, [id]);
+  }, [id, axiosSecure]);
 
-  // Handle payment
   const handlePaymentSuccess = async () => {
     if (!order) return;
 
     setProcessing(true);
     try {
-      const res = await fetch(`http://localhost:3000/orders/${id}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ status: "paid" }),
+      const res = await axiosSecure.patch(`/orders/${id}`, {
+        status: "paid",
+        paymentStatus: "paid",
       });
 
-      const result = await res.json();
-
-      if (res.ok) {
+      if (res.status === 200) {
         alert("Payment successful!");
-        navigate("/dashboard/my-orders"); // Redirect to My Orders page
+        navigate("/dashboard/my-orders");
       } else {
         alert("Payment failed. Try again.");
-        console.error(result);
+        console.error(res.data);
       }
     } catch (err) {
       console.error(err);
@@ -56,47 +53,77 @@ const Payment = () => {
     }
   };
 
-  if (loading) return <p>Loading order...</p>;
-  if (!order) return <p>Order not found.</p>;
+  if (loading)
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <span className="loading loading-spinner loading-lg"></span>
+      </div>
+    );
+
+  if (!order)
+    return (
+      <p className="text-center text-red-500 mt-10">Order not found.</p>
+    );
 
   return (
-    <div className="p-5 max-w-md mx-auto bg-white shadow-md rounded-md">
-      <h2 className="text-2xl font-bold mb-4">Pay for Order #{id}</h2>
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 p-5">
+      <div className="w-full max-w-md bg-white rounded-2xl shadow-xl p-6">
+        <h2 className="text-3xl font-bold text-center mb-6 text-indigo-600">
+          Order Payment
+        </h2>
 
-      <p className="mb-2">
-        <strong>Book:</strong> {order.bookTitle}
-      </p>
-      <p className="mb-2">
-        <strong>Amount:</strong> {order.amount} BDT
-      </p>
-      <p className="mb-4">
-        <strong>Status:</strong>{" "}
-        <span
-          className={`badge ${
-            order.status === "pending"
-              ? "badge-warning"
-              : order.status === "paid"
-              ? "badge-success"
-              : "badge-error"
-          }`}
-        >
-          {order.status}
-        </span>
-      </p>
+        <div className="space-y-4 text-gray-700">
+          <div className="flex items-center gap-3">
+            <FaBook className="text-indigo-500" />
+            <p>
+              <strong>Book:</strong> {order.bookTitle}
+            </p>
+          </div>
 
-      {order.status === "pending" ? (
-        <button
-          className={`btn btn-primary ${processing ? "loading" : ""}`}
-          onClick={handlePaymentSuccess}
-          disabled={processing}
-        >
-          {processing ? "Processing..." : "Pay Now"}
-        </button>
-      ) : (
-        <p className="text-green-600 font-semibold">
-          Payment already completed.
-        </p>
-      )}
+          <div className="flex items-center gap-3">
+            <FaMoneyBillWave className="text-green-500" />
+            <p>
+              <strong>Amount:</strong> {order.amount || "N/A"} BDT
+            </p>
+          </div>
+
+          <div className="flex items-center gap-3">
+            <FaCheckCircle className="text-blue-500" />
+            <p>
+              <strong>Status:</strong>{" "}
+              <span
+                className={`ml-2 badge ${
+                  order.status === "pending"
+                    ? "badge-warning"
+                    : order.status === "paid"
+                    ? "badge-success"
+                    : "badge-error"
+                }`}
+              >
+                {order.status}
+              </span>
+            </p>
+          </div>
+        </div>
+
+        <div className="mt-8">
+          {order.status === "pending" ? (
+            <button
+              className={`btn w-full btn-primary text-lg ${
+                processing ? "loading" : ""
+              }`}
+              onClick={handlePaymentSuccess}
+              disabled={processing}
+            >
+              {processing ? "Processing Payment..." : "Pay Now"}
+            </button>
+          ) : (
+            <div className="text-center text-green-600 font-semibold text-lg">
+              ✅ Payment already completed
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   );
 };
