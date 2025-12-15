@@ -1,4 +1,4 @@
-import React, { createContext } from 'react';
+// src/Context/AuthContext/AuthContext.jsx
+import { createContext } from "react";
 
- export const AuthContext = createContext(null)
-    
+export const AuthContext = createContext(null);

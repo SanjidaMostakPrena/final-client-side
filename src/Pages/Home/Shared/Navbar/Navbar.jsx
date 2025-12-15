@@ -1,10 +1,10 @@
+import React from 'react';
 import Logo from '../../../../Components/logo/logo';
 import { NavLink } from 'react-router-dom';
-import { useContext } from 'react';
-import { AuthContext } from '../../../../Context/AuthContext/AuthContext';
+import useAuth from '../../../../Hooks/useAuth';
 
 const Navbar = () => {
-  const { user, logout } = useContext(AuthContext);
+  const { user, logout, loading } = useAuth();
 
   const handleLogout = () => {
     logout()
@@ -12,7 +12,7 @@ const Navbar = () => {
       .catch(err => console.log(err));
   };
 
-  // Common navigation links
+
   const links = (
     <>
       <li>
@@ -58,9 +58,23 @@ const Navbar = () => {
     </>
   );
 
+  
+  if (loading) {
+    return (
+      <div className="navbar bg-base-100 shadow-sm px-4 md:px-8">
+        <div className="navbar-start">
+          <Logo />
+        </div>
+        <div className="navbar-center">
+          <p>Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="navbar bg-base-100 shadow-sm px-4 md:px-8">
-      {/* Left Section: Logo + Mobile Dropdown */}
+    
       <div className="navbar-start">
         <div className="dropdown">
           <div tabIndex={0} className="btn btn-ghost lg:hidden">
@@ -90,12 +104,9 @@ const Navbar = () => {
         <Logo />
       </div>
 
-      {/* Center Section: Desktop Links */}
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">{links}</ul>
       </div>
-
-      {/* Right Section: Auth + Dashboard + My Orders + Add Book */}
       <div className="navbar-end flex items-center gap-3">
         {user && user.photoURL && (
           <img
@@ -107,9 +118,6 @@ const Navbar = () => {
 
         {user ? (
           <>
-            <NavLink to="/dashboard/my-orders" className="btn btn-accent text-black">
-              My Orders
-            </NavLink>
             <NavLink to="/add-book" className="btn btn-accent text-black">
               Add Book
             </NavLink>

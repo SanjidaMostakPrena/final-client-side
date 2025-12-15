@@ -1,8 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import useAuth from "../../Hooks/useAuth";
+
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
+import useAuth from "../../Hooks/useAuth";
 
 const MyOrders = () => {
   const { user } = useAuth();
@@ -29,7 +30,7 @@ const MyOrders = () => {
       const res = await axiosSecure.patch(`/orders/cancel/${orderId}`);
       if (res.data.modifiedCount > 0) {
         alert("Order cancelled successfully");
-        refetch(); // Refresh the orders so UI updates
+        refetch();
       } else {
         alert("Failed to cancel the order");
       }

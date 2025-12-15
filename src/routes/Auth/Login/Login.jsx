@@ -1,3 +1,4 @@
+
 import React from "react";
 import { useForm } from "react-hook-form";
 import useAuth from "../../../Hooks/useAuth";
@@ -10,19 +11,17 @@ const Login = () => {
     formState: { errors },
   } = useForm();
 
-  const { loginUser, signInWithGoogle } = useAuth(); // Get Google sign-in
+  const { loginUser, signInWithGoogle } = useAuth();
 
   const handleLogin = (data) => {
-    console.log("Login Data:", data);
-
-    return loginUser(data.email, data.password)
+    loginUser(data.email, data.password)
       .then((result) => {
         console.log("Logged In:", result.user);
         alert(`Welcome back ${result.user.email}`);
-        // Add navigation/redirection logic here
+        // Redirect logic here
       })
       .catch((error) => {
-        console.log("Firebase Error:", error.message);
+        console.error("Firebase Error:", error.message);
         alert(error.message);
       });
   };
@@ -30,9 +29,38 @@ const Login = () => {
   const handleGoogleLogin = () => {
     signInWithGoogle()
       .then((result) => {
-        console.log("Google User:", result.user);
-        alert(`Welcome ${result.user.displayName || result.user.email}!`);
-        // Add navigation/redirection here
+        const user = result.user;
+
+
+        const adminEmails = ["admin1@gmail.com"];
+        const role = adminEmails.includes(user.email) ? "admin" : "user";
+
+        const userData = {
+          name: user.displayName || "Google User",
+          email: user.email,
+          uid: user.uid,
+          role,
+          loginMethod: "google",
+          createdAt: new Date()
+        };
+
+
+        fetch("http://localhost:5000/users", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(userData)
+        })
+          .then(res => res.json())
+          .then(data => {
+            console.log("MongoDB Response:", data);
+            alert(`Welcome ${user.displayName || user.email}!`);
+
+          })
+          .catch(err => {
+            console.error("MongoDB Save Error:", err);
+            alert("Failed to save user data!");
+          });
+
       })
       .catch((error) => {
         console.error("Google Sign-In Error:", error.message);
@@ -79,14 +107,12 @@ const Login = () => {
             )}
           </div>
 
-          {/* Forget Password */}
           <div className="pt-2">
             <a href="/forgot-password" className="text-sm text-gray-600 hover:text-lime-600">
               Forget Password?
             </a>
           </div>
 
-          {/* Login Button */}
           <button
             type="submit"
             className="w-full h-12 text-gray-800 font-semibold rounded-lg bg-[#b5e879] hover:bg-[#a9db71] transition-colors mt-6"
@@ -95,7 +121,6 @@ const Login = () => {
           </button>
         </form>
 
-        {/* Register Link & Google */}
         <div className="flex flex-col items-center mt-6">
           <p className="text-sm text-gray-600">
             Don't have any account?
@@ -106,7 +131,7 @@ const Login = () => {
 
           <div className="divider text-gray-400 my-4">Or</div>
 
-          {/* Google Login Button */}
+          {/* Google Login */}
           <button
             onClick={handleGoogleLogin}
             className="btn w-full text-base border-gray-300 bg-gray-50 text-gray-700 hover:bg-gray-100"
