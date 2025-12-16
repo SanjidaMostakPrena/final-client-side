@@ -48,7 +48,7 @@ const Order = () => {
   // Change order status
   const handleStatusChange = async (orderId, newStatus) => {
     try {
-      const res = await fetch(`http://localhost:3000/orders/${orderId}`, {
+      const res = await fetch(`http://localhost:5000/orders/${orderId}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ status: newStatus }),

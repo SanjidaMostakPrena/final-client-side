@@ -6,7 +6,7 @@ const MyBooks = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch("http://localhost:3000/books?addedBy=librarian")
+    fetch("http://localhost:5000/books?addedBy=librarian")
       .then((res) => res.json())
       .then((data) => setBooks(data))
       .catch((err) => console.error(err));
@@ -14,7 +14,7 @@ const MyBooks = () => {
 
   const togglePublish = (bookId, status) => {
     const newStatus = status === "published" ? "unpublished" : "published";
-    fetch(`http://localhost:3000/books/${bookId}`, {
+    fetch(`http://localhost:5000/books/${bookId}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ status: newStatus }),

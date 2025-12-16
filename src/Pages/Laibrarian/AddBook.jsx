@@ -4,7 +4,7 @@ import useAuth from '../../Hooks/useAuth';
 
 
 const AddBook = () => {
-  const { user } = useAuth(); // logged-in librarian info
+  const { user } = useAuth(); 
   const {
     register,
     handleSubmit,
@@ -14,14 +14,13 @@ const AddBook = () => {
 
   const handleAddBook = async (data) => {
     try {
-      // If the image is a file, you need to upload it first (e.g., to Cloudinary)
-      // For now, assume user provides image URL
+      
       const bookData = {
         ...data,
         addedBy: user.email,
       };
 
-      const res = await fetch('http://localhost:3000/librarian/books', {
+      const res = await fetch('http://localhost:5000/librarian/books', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(bookData),

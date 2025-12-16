@@ -3,10 +3,10 @@ import useAuth from "../../Hooks/useAuth";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const MyProfile = () => {
-  const { user, setUser } = useAuth(); 
+  const { user, setUser } = useAuth();
   const axiosSecure = useAxiosSecure();
 
-  const [name, setName] = useState(user?.displayName || "");
+  const [name, setName] = useState(user?.displayName);
   const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
@@ -47,10 +47,10 @@ const MyProfile = () => {
     <div className="p-5">
       <h2 className="text-2xl font-bold mb-5">My Profile</h2>
       <div className="bg-white shadow-md p-5 rounded-lg max-w-md">
-        <p><strong>Name:</strong> {user.displayName || "N/A"}</p>
+        <p><strong>Name:</strong> {user.displayName}</p>
         <p><strong>Email:</strong> {user.email}</p>
         <p><strong>Role:</strong> {user.role || "User"}</p>
-        <p><strong>Joined:</strong> {user.createdAt ? new Date(user.createdAt).toLocaleDateString() : "N/A"}</p>
+        <p><strong>Joined:</strong> {user.createdAt ? new Date(user.createdAt).toLocaleDateString() : name}</p>
 
         <form onSubmit={handleUpdateProfile} className="mt-5">
           <div className="mb-3">

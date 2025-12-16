@@ -2,95 +2,131 @@ import React, { useEffect, useState } from "react";
 
 const ManageBooks = () => {
   const [books, setBooks] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  
+  // ===============================
+  // Fetch all books
+  // ===============================
   useEffect(() => {
-    fetch("http://localhost:3000/books")
+    fetch("http://localhost:5000/books")
       .then((res) => res.json())
-      .then((data) => setBooks(data))
+      .then((data) => {
+        setBooks(data);
+        setLoading(false);
+      })
       .catch((err) => console.error(err));
   }, []);
 
+  // ===============================
+  // Publish / Unpublish a book
+  // ===============================
   const togglePublish = (bookId, currentStatus) => {
     const newStatus = currentStatus === "published" ? "unpublished" : "published";
 
-    fetch(`http://localhost:3000/books/${bookId}`, {
+    fetch(`http://localhost:5000/books/${bookId}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ status: newStatus }),
     })
       .then(() => {
-        setBooks(
-          books.map((book) =>
-            book.id === bookId ? { ...book, status: newStatus } : book
+        setBooks((prev) =>
+          prev.map((book) =>
+            book._id === bookId ? { ...book, status: newStatus } : book
           )
         );
-        alert(`Book is now ${newStatus}`);
       })
       .catch((err) => console.error(err));
   };
 
-  // Delete a book and its orders
+  // ===============================
+  // Delete book and related orders
+  // ===============================
   const handleDelete = (bookId) => {
-    if (!window.confirm("Are you sure you want to delete this book? This will also delete all related orders."))
-      return;
+    if (!window.confirm("Are you sure? This will also delete all related orders.")) return;
 
-    // Delete book
-    fetch(`http://localhost:3000/books/${bookId}`, { method: "DELETE" })
+    fetch(`http://localhost:5000/books/${bookId}`, { method: "DELETE" })
       .then(() => {
-        // Optionally delete orders for that book
-        fetch(`http://localhost:3000/orders?bookId=${bookId}`, { method: "DELETE" });
-        setBooks(books.filter((book) => book.id !== bookId));
-        alert("Book and related orders deleted successfully");
+        fetch(`http://localhost:5000/orders?bookId=${bookId}`, { method: "DELETE" });
+        setBooks((prev) => prev.filter((book) => book._id !== bookId));
       })
       .catch((err) => console.error(err));
   };
+
+  if (loading) {
+    return <p className="text-center mt-20 text-gray-700 font-medium">📦 Loading books...</p>;
+  }
 
   return (
-    <div className="p-4">
-      <h2 className="text-2xl font-bold mb-4">Manage Books</h2>
-      <table className="table-auto w-full border-collapse border border-gray-300">
-        <thead>
-          <tr className="bg-gray-100">
-            <th className="border p-2">Book Name</th>
-            <th className="border p-2">Author</th>
-            <th className="border p-2">Status</th>
-            <th className="border p-2">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {books.map((book) => (
-            <tr key={book.id}>
-              <td className="border p-2">{book.bookName}</td>
-              <td className="border p-2">{book.bookAuthor}</td>
-              <td className="border p-2 capitalize">{book.status}</td>
-              <td className="border p-2 space-x-2">
-                <button
-                  onClick={() => togglePublish(book.id, book.status)}
-                  className="px-3 py-1 bg-yellow-500 text-white rounded hover:bg-yellow-600"
-                >
-                  {book.status === "published" ? "Unpublish" : "Publish"}
-                </button>
-                <button
-                  onClick={() => handleDelete(book.id)}
-                  className="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600"
-                >
-                  Delete
-                </button>
-              </td>
-            </tr>
-          ))}
-          {books.length === 0 && (
+    <div className="max-w-7xl mx-auto px-6 py-10 bg-white text-black">
+      {/* Header */}
+      <div className="mb-8 text-center">
+        <h1 className="text-4xl font-extrabold text-indigo-700">📚 Manage Books</h1>
+        <p className="text-gray-600 mt-2">
+          Admin can publish/unpublish or delete books. Deleting a book also deletes all related orders.
+        </p>
+      </div>
+
+      {/* Table */}
+      <div className="overflow-x-auto border border-gray-200 rounded-xl shadow-md">
+        <table className="min-w-full bg-white text-black">
+          <thead className="bg-gray-100 border-b">
             <tr>
-              <td colSpan="4" className="text-center p-4">
-                No books found.
-              </td>
+              <th className="py-4 px-4 text-left font-semibold">Book Name</th>
+              <th className="py-4 px-4 text-left font-semibold">Author</th>
+              <th className="py-4 px-4 text-center font-semibold">Status</th>
+              <th className="py-4 px-4 text-center font-semibold">Actions</th>
             </tr>
-          )}
-        </tbody>
-      </table>
+          </thead>
+
+          <tbody>
+            {books.map((book, index) => (
+              <tr
+                key={book._id}
+                className={`border-b ${index % 2 === 0 ? "bg-white" : "bg-gray-50"} hover:bg-gray-100`}
+              >
+                <td className="py-3 px-4 font-medium">{book.bookName}</td>
+                <td className="py-3 px-4">{book.bookAuthor}</td>
+                <td className="py-3 px-4 text-center">
+                  <span className={`px-3 py-1 rounded-full text-sm font-semibold capitalize ${
+                    book.status === "published"
+                      ? "bg-green-100 text-green-700"
+                      : "bg-red-100 text-red-700"
+                  }`}>
+                    {book.status}
+                  </span>
+                </td>
+                <td className="py-3 px-4 flex justify-center gap-2">
+                  <button
+                    onClick={() => togglePublish(book._id, book.status)}
+                    className={`px-3 py-1 rounded-md text-sm font-medium ${
+                      book.status === "published"
+                        ? "bg-yellow-500 text-white hover:bg-yellow-600"
+                        : "bg-blue-600 text-white hover:bg-blue-700"
+                    }`}
+                  >
+                    {book.status === "published" ? "Unpublish" : "Publish"}
+                  </button>
+                  <button
+                    onClick={() => handleDelete(book._id)}
+                    className="px-3 py-1 rounded-md text-sm font-medium bg-red-600 text-white hover:bg-red-700"
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
+            {books.length === 0 && (
+              <tr>
+                <td colSpan="4" className="text-center py-6 text-gray-500">
+                  No books found.
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };
 
-export default ManageBooks;
+export default ManageBooks ;
