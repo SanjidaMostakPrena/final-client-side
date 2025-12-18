@@ -1,26 +1,32 @@
+
 import React from 'react';
 import Logo from '../../../../Components/logo/logo';
 
 const Footer = () => {
     return (
-        <footer className="footer footer-horizontal footer-center bg-white text-black p-10">
-            <aside>
+        <footer className="footer footer-horizontal footer-center bg-gradient-to-r from-indigo-50 to-blue-50 text-indigo-900 p-10 shadow-inner">
+            <aside className="flex flex-col items-center gap-4">
                 <Logo />
 
-                <p className="font-bold text-lg">
+                <p className="font-bold text-lg text-center">
                     BookCourier – Library to Home Delivery
                     <br />
                     Delivering knowledge to your doorstep.
                 </p>
 
-                <p>© {new Date().getFullYear()} BookCourier. All rights reserved.</p>
+                <p className="text-sm text-gray-600">
+                    © {new Date().getFullYear()} BookCourier. All rights reserved.
+                </p>
             </aside>
 
-            <nav>
-                <div className="grid grid-flow-col gap-4">
-
+            <nav className="mt-6">
+                <div className="flex gap-6 justify-center">
                     {/* X (Twitter New Logo) */}
-                    <a href="#" aria-label="X">
+                    <a
+                        href="#"
+                        aria-label="X"
+                        className="hover:text-teal-500 transition-colors duration-300"
+                    >
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             width="24"
@@ -33,7 +39,11 @@ const Footer = () => {
                     </a>
 
                     {/* YouTube */}
-                    <a href="#" aria-label="YouTube">
+                    <a
+                        href="#"
+                        aria-label="YouTube"
+                        className="hover:text-red-500 transition-colors duration-300"
+                    >
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             width="24"
@@ -46,7 +56,11 @@ const Footer = () => {
                     </a>
 
                     {/* Facebook */}
-                    <a href="#" aria-label="Facebook">
+                    <a
+                        href="#"
+                        aria-label="Facebook"
+                        className="hover:text-blue-600 transition-colors duration-300"
+                    >
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             width="24"
@@ -57,7 +71,6 @@ const Footer = () => {
                             <path d="M9 8H6v4h3v12h5V12h3.642l.358-4h-4V6.333c0-.955.192-1.333 1.115-1.333h2.885V0h-3.808C10.404 0 8.808 1.583 8.808 4.615V8z"></path>
                         </svg>
                     </a>
-
                 </div>
             </nav>
         </footer>

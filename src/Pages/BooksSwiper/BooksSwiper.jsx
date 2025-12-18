@@ -5,51 +5,51 @@ import 'swiper/css';
 import 'swiper/css/effect-coverflow';
 import 'swiper/css/pagination';
 
-const booksData = 
-  [
+const booksData = [
   {
-    "id": 1,
-    "name": "Learn JavaScript",
-    "description": "Improve your programming skills and logical thinking.",
-    "bookImage": "https://i.ibb.co/2t7KZzY/book1.jpg",
-    "authorImage": "https://randomuser.me/api/portraits/men/10.jpg"
+    id: 1,
+    name: "The Kite Runner",
+    author: "Khaled Hosseini",
+    bookImage: "https://i.ibb.co/TDHBgzGR/i1.jpg",
+    authorImage: "https://randomuser.me/api/portraits/men/10.jpg",
   },
   {
-    "id": 2,
-    "name": "Mastering React",
-    "description": "Build interactive web apps and enhance problem-solving skills.",
-    "bookImage": "https://i.ibb.co/3YJ5f4d/book2.jpg",
-    "authorImage": "https://randomuser.me/api/portraits/women/25.jpg"
+    id: 2,
+    name: "Great Expectations",
+    author: "Charles Dickens",
+    bookImage: "https://i.ibb.co/mrRY8kqZ/i2.jpg",
+    authorImage: "https://randomuser.me/api/portraits/women/25.jpg",
   },
   {
-    "id": 3,
-    "name": "Python for Beginners",
-    "description": "Learn coding fundamentals and develop analytical thinking.",
-    "bookImage": "https://i.ibb.co/4fG9XcV/book3.jpg",
-    "authorImage": "https://randomuser.me/api/portraits/men/34.jpg"
+    id: 3,
+    name: "Never Let Me Go",
+    author: "Kazuo Ishiguro",
+    bookImage: "https://i.ibb.co/XrWthqM8/i4.webp",
+    authorImage: "https://randomuser.me/api/portraits/men/34.jpg",
   },
   {
-    "id": 4,
-    "name": "Data Structures in C",
-    "description": "Boost your problem-solving and programming knowledge.",
-    "bookImage": "https://i.ibb.co/5H8m3fL/book4.jpg",
-    "authorImage": "https://randomuser.me/api/portraits/women/12.jpg"
-  }
-]
-
+    id: 4,
+    name: "Wuthering Heights",
+    author: "Emily Brontë",
+    bookImage: "https://i.ibb.co/HDQCsMKq/i7.jpg",
+    authorImage: "https://randomuser.me/api/portraits/women/12.jpg",
+  },
+];
 
 const BooksSwiper = () => {
   return (
-    <section className="my-24 bg-gray-50 py-16">
+    <section className="my-24 py-20 bg-gradient-to-b from-indigo-50 via-white to-teal-50">
+      {/* Section Heading */}
       <div className="text-center max-w-3xl mx-auto mb-16 px-4">
-        <h3 className="text-4xl font-bold text-primary mb-4">
-          Why Reading These Books is Beneficial
+        <h3 className="text-4xl md:text-5xl font-bold mb-4 text-indigo-900">
+          Why Reading These Books Matters
         </h3>
-        <p className="text-gray-500 text-lg">
-          Explore these books to improve your knowledge, skills, and personal growth.
+        <p className="text-indigo-900 text-lg">
+           Timeless novels and stories that shaped English literature.
         </p>
       </div>
 
+      {/* Swiper Carousel */}
       <div className="px-4">
         <Swiper
           loop={true}
@@ -58,11 +58,11 @@ const BooksSwiper = () => {
           centeredSlides={true}
           slidesPerView={3}
           coverflowEffect={{
-            rotate: 30,
-            stretch: 50,
+            rotate: 20,
+            stretch: 0,
             depth: 200,
             modifier: 1,
-            scale: 0.75,
+            scale: 0.85,
             slideShadows: true,
           }}
           autoplay={{
@@ -80,21 +80,31 @@ const BooksSwiper = () => {
         >
           {booksData.map((book) => (
             <SwiperSlide key={book.id}>
-              <div className="bg-white rounded-xl shadow-lg p-5 hover:shadow-2xl transition-transform hover:scale-105 text-center">
-                <img
-                  src={book.bookImage}
-                  alt={book.name}
-                  className="w-full h-48 object-cover rounded-lg mb-4"
-                />
-                <h3 className="text-xl font-semibold mb-2">{book.name}</h3>
-                <p className="text-gray-600 mb-4">{book.description}</p>
-                <div className="flex items-center justify-center">
+              <div className="group bg-white/80 backdrop-blur rounded-2xl shadow-lg p-5 text-center text-indigo-900 hover:shadow-2xl hover:-translate-y-2 transition-all duration-500">
+                
+                {/* Book Image */}
+                <div className="overflow-hidden rounded-xl mb-4 aspect-[3/4]">
+                  <img
+                    src={book.bookImage}
+                    alt={book.name}
+                    className="w-full h-full object-cover transform transition-transform duration-500 group-hover:scale-110"
+                  />
+                </div>
+
+                {/* Book Info */}
+                <h3 className="text-xl font-semibold mb-1">{book.name}</h3>
+                <p className="text-indigo-700 text-sm mb-4">{book.author}</p>
+
+                {/* Author */}
+                <div className="flex items-center justify-center gap-3">
                   <img
                     src={book.authorImage}
-                    alt="author"
-                    className="w-10 h-10 rounded-full border border-gray-200 mr-3"
+                    alt={book.author}
+                    className="w-10 h-10 rounded-full border-2 border-teal-400"
                   />
-                  <p className="text-sm text-gray-500">Author/Reviewer</p>
+                  <p className="text-sm text-gray-500 font-medium">
+                    Author / Reviewer
+                  </p>
                 </div>
               </div>
             </SwiperSlide>
@@ -106,3 +116,117 @@ const BooksSwiper = () => {
 };
 
 export default BooksSwiper;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

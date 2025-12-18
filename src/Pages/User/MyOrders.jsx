@@ -1,125 +1,4 @@
-// import React from "react";
-// import { Link } from "react-router-dom";
 
-// import { useQuery } from "@tanstack/react-query";
-// import useAxiosSecure from "../../hooks/useAxiosSecure";
-// import useAuth from "../../Hooks/useAuth";
-
-// const MyOrders = () => {
-//   const { user } = useAuth();
-//   const axiosSecure = useAxiosSecure();
-
-//   // Fetch user's orders from backend
-//   const {
-//     data: orders = [],
-//     refetch,
-//     isLoading,
-//   } = useQuery({
-//     queryKey: ["orders", user?.email],
-//     enabled: !!user?.email,
-//     queryFn: async () => {
-//       const res = await axiosSecure.get(`/user/orders/${user.email}`);
-//       return res.data;
-//     },
-//   });
-
-//   // Handle order cancellation
-//   const handleCancel = async (orderId) => {
-//     try {
-//       // <-- FIXED PATCH URL -->
-//       const res = await axiosSecure.patch(`/orders/cancel/${orderId}`);
-//       if (res.data.modifiedCount > 0) {
-//         alert("Order cancelled successfully");
-//         refetch();
-//       } else {
-//         alert("Failed to cancel the order");
-//       }
-//     } catch (err) {
-//       console.error(err);
-//       alert("Error cancelling the order");
-//     }
-//   };
-
-//   if (isLoading) return <p>Loading your orders...</p>;
-
-//   return (
-//     <div className="p-5">
-//       <h2 className="text-2xl font-bold mb-5">My Orders</h2>
-
-//       {orders.length === 0 ? (
-//         <p>No orders found.</p>
-//       ) : (
-//         <div className="overflow-x-auto">
-//           <table className="table w-full">
-//             <thead>
-//               <tr className="bg-gray-200">
-//                 <th>#</th>
-//                 <th>Book Title</th>
-//                 <th>Order Date</th>
-//                 <th>Status</th>
-//                 <th>Actions</th>
-//               </tr>
-//             </thead>
-
-//             <tbody>
-//               {orders.map((order, index) => (
-//                 <tr key={order._id}>
-//                   <td>{index + 1}</td>
-//                   <td>{order.bookTitle}</td>
-//                   <td>
-//                     {order.date
-//                       ? new Date(order.date).toLocaleDateString()
-//                       : "N/A"}
-//                   </td>
-//                   <td>
-//                     <span
-//                       className={`badge ${
-//                         order.status === "pending"
-//                           ? "badge-warning"
-//                           : order.status === "paid"
-//                           ? "badge-success"
-//                           : "badge-error"
-//                       }`}
-//                     >
-//                       {order.status}
-//                     </span>
-//                   </td>
-
-//                   <td className="flex gap-3">
-//                     {order.status === "pending" && (
-//                       <>
-//                         <button
-//                           className="btn btn-sm btn-error"
-//                           onClick={() => handleCancel(order._id)}
-//                         >
-//                           Cancel
-//                         </button>
-//                         <Link
-//                           to={`/dashboard/payment/${order._id}`}
-//                           className="btn btn-sm btn-primary"
-//                         >
-//                           Pay Now
-//                         </Link>
-//                       </>
-//                     )}
-
-//                     {order.status !== "pending" && (
-//                       <span className="text-gray-500 italic">
-//                         No Actions Available
-//                       </span>
-//                     )}
-//                   </td>
-//                 </tr>
-//               ))}
-//             </tbody>
-//           </table>
-//         </div>
-//       )}
-//     </div>
-//   );
-// };
-
-// export default MyOrders;
 import React from "react";
 import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
@@ -138,12 +17,14 @@ const MyOrders = () => {
     queryKey: ["orders", user?.email],
     enabled: !!user?.email,
     queryFn: async () => {
-      const res = await axiosSecure.get(`/user/orders/${user.email}`);
+      if (!user?.email) return [];
+      const res = await axiosSecure.get(
+        `/user/orders/${encodeURIComponent(user.email)}`
+      );
       return res.data;
     },
   });
 
-  // ✅ FIXED CANCEL HANDLER
   const handleCancel = async (orderId) => {
     try {
       const res = await axiosSecure.patch(`/orders/${orderId}`, {
@@ -160,19 +41,26 @@ const MyOrders = () => {
     }
   };
 
-  if (isLoading) return <p>Loading your orders...</p>;
+  if (isLoading)
+    return (
+      <div className="text-center py-20 text-lg text-indigo-900">
+        Loading your orders...
+      </div>
+    );
 
   return (
-    <div className="p-5">
-      <h2 className="text-2xl font-bold mb-5">My Orders</h2>
+    <div className="max-w-7xl mx-auto px-4 py-10 bg-gradient-to-b from-indigo-50 via-white to-teal-50 rounded-2xl shadow-lg">
+      <h2 className="text-3xl md:text-4xl font-bold mb-8 text-center text-indigo-900">
+        My Orders
+      </h2>
 
       {orders.length === 0 ? (
-        <p>No orders found.</p>
+        <p className="text-center text-gray-600 text-lg">No orders found.</p>
       ) : (
         <div className="overflow-x-auto">
-          <table className="table w-full">
-            <thead>
-              <tr className="bg-gray-200">
+          <table className="table w-full border border-indigo-100 rounded-xl shadow-md bg-white">
+            <thead className="bg-gradient-to-r from-teal-200 to-indigo-200 text-indigo-900">
+              <tr>
                 <th>#</th>
                 <th>Book Title</th>
                 <th>Order Date</th>
@@ -183,9 +71,12 @@ const MyOrders = () => {
 
             <tbody>
               {orders.map((order, index) => (
-                <tr key={order._id}>
+                <tr
+                  key={order._id}
+                  className="hover:bg-indigo-50 transition-colors duration-300"
+                >
                   <td>{index + 1}</td>
-                  <td>{order.bookTitle}</td>
+                  <td>{order.bookTitle || "Unknown Book"}</td>
                   <td>
                     {order.createdAt
                       ? new Date(order.createdAt).toLocaleDateString()
@@ -193,31 +84,34 @@ const MyOrders = () => {
                   </td>
                   <td>
                     <span
-                      className={`badge ${
+                      className={`badge px-3 py-1 rounded-full text-sm font-semibold ${
                         order.status === "pending"
-                          ? "badge-warning"
+                          ? "bg-yellow-300 text-yellow-900"
                           : order.status === "paid"
-                          ? "badge-success"
-                          : "badge-error"
+                          ? "bg-green-300 text-green-900"
+                          : order.status === "cancelled"
+                          ? "bg-red-300 text-red-900"
+                          : "bg-gray-300 text-gray-700"
                       }`}
                     >
                       {order.status}
                     </span>
                   </td>
 
-                  <td className="flex gap-3">
+                  <td className="flex flex-col sm:flex-row gap-3">
                     {order.status === "pending" ? (
                       <>
                         <button
-                          className="btn btn-sm btn-error"
+                          className="btn btn-sm bg-red-500 hover:bg-red-600 text-white font-semibold rounded-lg transition-all duration-300"
                           onClick={() => handleCancel(order._id)}
                         >
                           Cancel
                         </button>
 
+                        {/* Pay Now Button goes to Payment Page */}
                         <Link
                           to={`/dashboard/payment/${order._id}`}
-                          className="btn btn-sm btn-primary"
+                          className="btn btn-sm bg-gradient-to-r from-teal-400 to-indigo-500 hover:from-indigo-500 hover:to-teal-400 text-white font-semibold rounded-lg transition-all duration-300"
                         >
                           Pay Now
                         </Link>

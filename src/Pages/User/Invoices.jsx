@@ -1,15 +1,12 @@
 import React from "react";
-
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import useAuth from "../../Hooks/useAuth";
-
 
 const Invoices = () => {
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
 
-  // Fetch all paid invoices for the logged-in user
   const { data: payments = [], isLoading } = useQuery({
     queryKey: ["payments", user?.email],
     enabled: !!user?.email,
@@ -19,45 +16,50 @@ const Invoices = () => {
     },
   });
 
-  if (isLoading) return <p>Loading invoices...</p>;
+  if (isLoading)
+    return (
+      <div className="text-center py-20 text-lg text-indigo-900">
+        Loading invoices...
+      </div>
+    );
 
   return (
-    <div className="p-5">
-      <h2 className="text-2xl font-bold mb-5">Invoices</h2>
+    <div className="max-w-7xl mx-auto px-4 py-10 bg-gradient-to-b from-indigo-50 via-white to-teal-50 rounded-xl">
+      <h2 className="text-3xl md:text-4xl font-bold mb-10 text-center text-indigo-900">
+        My Invoices
+      </h2>
 
       {payments.length === 0 ? (
-        <p>You have no paid invoices.</p>
+        <p className="text-center text-gray-600 text-lg">
+          You have no paid invoices.
+        </p>
       ) : (
         <div className="overflow-x-auto">
-          <table className="table w-full">
-            <thead>
-              <tr className="bg-gray-200">
+          <table className="table w-full border border-indigo-100 rounded-xl shadow-md bg-white">
+            <thead className="bg-gradient-to-r from-teal-200 to-indigo-200 text-indigo-900">
+              <tr>
                 <th>#</th>
                 <th>Payment ID</th>
-                <th>Book Name</th>
+                <th>Book Title</th>
                 <th>Amount</th>
                 <th>Date</th>
               </tr>
             </thead>
-
             <tbody>
               {payments.map((payment, index) => (
-                <tr key={payment._id}>
+                <tr
+                  key={payment._id}
+                  className="hover:bg-indigo-50 transition-colors duration-300 cursor-pointer"
+                >
                   <td>{index + 1}</td>
-
-                  {/* Payment ID */}
-                  <td className="font-mono">{payment._id}</td>
-
-                  {/* Optional: Book name */}
-                  <td>{payment.bookTitle || "N/A"}</td>
-
-                  {/* Amount */}
-                  <td>{payment.amount} BDT</td>
-
-                  {/* Date */}
-                  <td>
-                    {payment.date
-                      ? new Date(payment.date).toLocaleDateString()
+                  <td className="font-mono text-sm text-gray-700">{payment._id}</td>
+                  <td className="font-medium text-indigo-900">{payment.bookTitle || "N/A"}</td>
+                  <td className="text-teal-700 font-semibold">
+                    {Number(payment.amount || payment.totalAmount || 0).toFixed(2)} BDT
+                  </td>
+                  <td className="text-gray-600">
+                    {payment.createdAt
+                      ? new Date(payment.createdAt).toLocaleDateString()
                       : "N/A"}
                   </td>
                 </tr>

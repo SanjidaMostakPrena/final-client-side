@@ -1,4 +1,3 @@
-
 import React from "react";
 import { createBrowserRouter, Navigate } from "react-router-dom";
 import RootLayout from "../Layout/RootLayout";
@@ -18,8 +17,13 @@ import AllUsers from "../Pages/Admin/AllUsers";
 import ManageBooks from "../Pages/Admin/ManageBooks";
 import PrivateRoute from "./PrivateRoute";
 import MyBook from "../Pages/Laibrarian/MyBook";
-import Order from "../Pages/Laibrarian/Order";
+import Order from "../Pages/Laibrarian/LibrarianOrders";
 import AddBook from "../Pages/Laibrarian/AddBook";
+import EditBook from "../Pages/Laibrarian/EditBook";
+import AboutUs from "../Pages/AboutUs/AboutUs";
+import MyWishlist from "../Pages/MyWishlist/MyWishlist";
+import Dashboard from "../Pages/Dashboard/Dashboard";
+import LibrarianOrders from "../Pages/Laibrarian/LibrarianOrders";
 export const router = createBrowserRouter([
  
   {
@@ -28,6 +32,11 @@ export const router = createBrowserRouter([
     children: [
       { index: true, element: <Home /> },
       { path: "coverage", element: <Coverage /> },
+
+      {
+        path: "/about",          // ✅ this path
+        element: <AboutUs/> // ✅ this component
+      },
       {
         path: "books",
         element: <AllBooks />,
@@ -40,6 +49,9 @@ export const router = createBrowserRouter([
         },
       },
     { path: "books/:id", element: <BookDetails /> },
+    { path: "register", element: <Register /> },
+     { path: "MyWishlist", element:<MyWishlist></MyWishlist>},
+     
 
       {
       path: "add-book",
@@ -49,6 +61,7 @@ export const router = createBrowserRouter([
         </PrivateRoute>
       ),
     },
+  
     ],
   },
 
@@ -70,29 +83,33 @@ export const router = createBrowserRouter([
       </PrivateRoute>
     ),
     children: [
-
+       {path:"/dashboard" ,element:<Dashboard/>} ,
+    { path: "add-book", element: <AddBook /> },
       { path: "all-users", element: <AllUsers /> },
       { path: "manage-books", element: <ManageBooks /> },
       { path: "my-profile", element: <MyProfile /> },
+  { path: "librarian-orders", element: <LibrarianOrders/> },
 
 
-
-
+{ path: "my-wishlist", element: <MyWishlist /> },
 
       { path: "my-book", element: <MyBook /> },
-      { path: "order", element: <Order /> },
-
-
-
-
-
-
-
       
+
+
+  
+
+
+
+
+      { path: "edit-book/:id", element: <EditBook/> },
       { path: "my-orders", element: <MyOrders /> },
       { path: "my-profile", element: <MyProfile /> },
       { path: "invoices", element: <Invoices /> },
       { path: "payment/:id", element: <Payment /> },
+     
+
+
     ],
   },
 

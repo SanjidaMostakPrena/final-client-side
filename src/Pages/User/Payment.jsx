@@ -12,6 +12,10 @@ const Payment = () => {
   const [loading, setLoading] = useState(true);
   const [processing, setProcessing] = useState(false);
 
+  // bKash fields
+  const [bkashNumber, setBkashNumber] = useState("");
+  const [trxId, setTrxId] = useState("");
+
   useEffect(() => {
     const fetchOrder = async () => {
       try {
@@ -30,16 +34,23 @@ const Payment = () => {
 
   const handlePaymentSuccess = async () => {
     if (!order) return;
+    if (!bkashNumber || !trxId)
+      return alert("Please enter bKash number and transaction ID!");
 
     setProcessing(true);
+
     try {
+      // Simulate bKash payment verification
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+
+      // Update order status after successful payment
       const res = await axiosSecure.patch(`/orders/${id}`, {
         status: "paid",
         paymentStatus: "paid",
       });
 
       if (res.status === 200) {
-        alert("Payment successful!");
+        alert("Payment successful via bKash!");
         navigate("/dashboard/my-orders");
       } else {
         alert("Payment failed. Try again.");
@@ -65,25 +76,39 @@ const Payment = () => {
       <p className="text-center text-red-500 mt-10">Order not found.</p>
     );
 
+  // Determine the correct amount to display
+  const displayAmount =
+    order.amount !== undefined && order.amount !== null
+      ? order.amount
+      : order.totalAmount !== undefined && order.totalAmount !== null
+      ? order.totalAmount
+      : order.bookPrice !== undefined && order.bookPrice !== null
+      ? order.bookPrice
+      : "N/A";
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 p-5">
       <div className="w-full max-w-md bg-white rounded-2xl shadow-xl p-6">
         <h2 className="text-3xl font-bold text-center mb-6 text-indigo-600">
-          Order Payment
+          Order Payment (bKash)
         </h2>
 
         <div className="space-y-4 text-gray-700">
           <div className="flex items-center gap-3">
             <FaBook className="text-indigo-500" />
             <p>
-              <strong>Book:</strong> {order.bookTitle}
+              <strong>Book:</strong> {order.bookTitle || "Unknown Book"}
             </p>
           </div>
 
           <div className="flex items-center gap-3">
             <FaMoneyBillWave className="text-green-500" />
             <p>
-              <strong>Amount:</strong> {order.amount || "N/A"} BDT
+              <strong>Amount:</strong>{" "}
+              {displayAmount !== "N/A"
+                ? Number(displayAmount).toLocaleString()
+                : "N/A"}{" "}
+              BDT
             </p>
           </div>
 
@@ -105,6 +130,27 @@ const Payment = () => {
             </p>
           </div>
         </div>
+
+        {/* bKash payment form */}
+        {order.status === "pending" && (
+          <div className="mt-6 space-y-3">
+            <input
+              type="text"
+              placeholder="bKash Number (11 digits)"
+              maxLength={11}
+              value={bkashNumber}
+              onChange={(e) => setBkashNumber(e.target.value)}
+              className="input input-bordered w-full"
+            />
+            <input
+              type="text"
+              placeholder="Transaction ID"
+              value={trxId}
+              onChange={(e) => setTrxId(e.target.value)}
+              className="input input-bordered w-full"
+            />
+          </div>
+        )}
 
         <div className="mt-8">
           {order.status === "pending" ? (
