@@ -12,7 +12,7 @@ const LibrarianOrders = () => {
     try {
       setLoading(true);
       const res = await axios.get(
-        `http://localhost:5000/orders/librarian?email=${encodeURIComponent(user.email)}`
+        `https://bookcourier.vercel.app/orders/librarian?email=${encodeURIComponent(user.email)}`
       );
       setOrders(res.data);
     } catch (err) {
@@ -28,7 +28,7 @@ const LibrarianOrders = () => {
 
   const handleCancel = async (id) => {
     try {
-      await axios.delete(`http://localhost:5000/orders/${id}`);
+      await axios.delete(`https://bookcourier.vercel.app/orders/${id}`);
       fetchOrders();
     } catch (err) {
       console.error(err);
@@ -37,7 +37,7 @@ const LibrarianOrders = () => {
 
   const handleStatusChange = async (id, status) => {
     try {
-      await axios.patch(`http://localhost:5000/orders/${id}`, { status });
+      await axios.patch(`https://bookcourier.vercel.app/orders/${id}`, { status });
       fetchOrders();
     } catch (err) {
       console.error(err);

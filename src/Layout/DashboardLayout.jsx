@@ -8,7 +8,7 @@ const DashboardLayout = () => {
 
   useEffect(() => {
     if (user?.email) {
-      fetch(`http://localhost:5000/users/${user.email}`)
+      fetch(`https://bookcourier.vercel.app/${user.email}`)
         .then(res => res.json())
         .then(data => setRole(data?.role || "user"))
         .catch(err => console.error(err));
@@ -64,12 +64,12 @@ const DashboardLayout = () => {
           )}
 
           {role === "librarian" && (
-  <>
-    <li><NavLink to="/dashboard/add-book">Add Book</NavLink></li>
-    <li><NavLink to="/dashboard/my-book">My Books</NavLink></li>
-    <li><NavLink to="/dashboard/librarian-orders">laibrarian orders</NavLink></li>
-  </>
-)}
+            <>
+              <li><NavLink to="/dashboard/add-book">Add Book</NavLink></li>
+              <li><NavLink to="/dashboard/my-book">My Books</NavLink></li>
+              <li><NavLink to="/dashboard/librarian-orders">laibrarian orders</NavLink></li>
+            </>
+          )}
 
 
           {role === "user" && (

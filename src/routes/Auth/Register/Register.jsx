@@ -3,7 +3,7 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import useAuth from '../../../Hooks/useAuth';
 import { FcGoogle } from "react-icons/fc";
-import { FaUserCircle } from "react-icons/fa"; 
+import { FaUserCircle } from "react-icons/fa";
 
 const Register = () => {
   const {
@@ -16,7 +16,7 @@ const Register = () => {
 
   const saveUserToDB = (user) => {
     // Send user data to MongoDB
-    fetch("http://localhost:5000/users", { // Change port if needed
+    fetch("https://bookcourier.vercel.app", { // Change port if needed
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(user)
@@ -211,7 +211,7 @@ export default Register;
 //   const adminEmails = ["admin1@gmail.com"];
 
 //   const saveUserToDB = async (user) => {
-//     const res = await fetch("http://localhost:5000/users", {
+//     const res = await fetch("https://bookcourier.vercel.app", {
 //       method: "POST",
 //       headers: { "Content-Type": "application/json" },
 //       body: JSON.stringify(user)

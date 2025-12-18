@@ -10,7 +10,7 @@ const AllUsers = () => {
 
   const fetchUsers = async () => {
     try {
-      const res = await fetch("http://localhost:5000/users");
+      const res = await fetch("https://bookcourier.vercel.app");
       if (!res.ok) throw new Error("Failed to fetch users");
       const data = await res.json();
       setUsers(data);
@@ -56,7 +56,7 @@ const AllUsers = () => {
 
   const updateRole = async (userId, newRole) => {
     try {
-      const res = await fetch(`http://localhost:5000/users/${userId}`, {
+      const res = await fetch(`https://bookcourier.vercel.app/${userId}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ role: newRole }),
@@ -102,9 +102,8 @@ const AllUsers = () => {
             {users.map((user, index) => (
               <tr
                 key={user._id}
-                className={`border-b ${
-                  index % 2 === 0 ? "bg-white" : "bg-gray-50"
-                } hover:bg-gray-100`}
+                className={`border-b ${index % 2 === 0 ? "bg-white" : "bg-gray-50"
+                  } hover:bg-gray-100`}
               >
                 <td className="py-3 px-4 font-medium">
                   {user.name || user.displayName || "Unknown Reader"}

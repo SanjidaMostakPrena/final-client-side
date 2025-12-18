@@ -14,7 +14,7 @@ const googleProvider = new GoogleAuthProvider();
 
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [role, setRole] = useState(null); 
+  const [role, setRole] = useState(null);
   const [loading, setLoading] = useState(true);
 
   const registerUser = (email, password) => {
@@ -51,7 +51,7 @@ const AuthProvider = ({ children }) => {
 
       try {
         // Save or update user in MongoDB
-        await fetch("http://localhost:5000/users", {
+        await fetch("https://bookcourier.vercel.app", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -65,7 +65,7 @@ const AuthProvider = ({ children }) => {
         });
 
         // Fetch full user document from MongoDB
-        const res = await fetch(`http://localhost:5000/users/${currentUser.email}`);
+        const res = await fetch(`https://bookcourier.vercel.app/${currentUser.email}`);
         if (!res.ok) throw new Error("User not found in MongoDB");
 
         const data = await res.json();
