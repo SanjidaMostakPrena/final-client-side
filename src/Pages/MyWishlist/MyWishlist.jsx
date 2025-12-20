@@ -60,6 +60,8 @@ const MyWishlist = () => {
       </div>
     );
 
+    
+
   return (
     <div className="max-w-7xl mx-auto px-4 py-10 bg-gradient-to-b from-indigo-50 via-white to-teal-50">
       <h1 className="text-4xl md:text-5xl font-bold text-center mb-8 text-indigo-900">
