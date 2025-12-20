@@ -166,6 +166,7 @@ const DashboardLayout = () => {
               <li><NavLink to="/dashboard/add-book">Add Book</NavLink></li>
               <li><NavLink to="/dashboard/my-book">My Books</NavLink></li>
               <li><NavLink to="/dashboard/librarian-orders">Librarian Orders</NavLink></li>
+               <li><NavLink to="/dashboard/my-profile">My Profile</NavLink></li>
             </>
           )}
 
