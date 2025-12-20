@@ -91,6 +91,7 @@ const LatestBooks = () => {
       </div>
     </div>
   );
+  
 };
 
 export default LatestBooks;
