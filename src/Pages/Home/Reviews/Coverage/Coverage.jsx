@@ -37,11 +37,11 @@ const Coverage = () => {
 
   return (
     <div className="bg-gradient-to-b from-[#f0f4f8] to-[#ffffff] p-8">
-      <h2 className="text-5xl font-bold text-center mb-6 text-gray-800">
+      <h2 className="text-5xl font-bold text-center mb-6 text-blue-900">
         We are Available in 64 Districts
       </h2>
 
-      <p className="text-center text-gray-600 mb-10 max-w-3xl mx-auto text-lg">
+      <p className="text-center text-black mb-10 max-w-3xl mx-auto text-lg">
         At BookCourier, we believe in making books accessible to everyone. Explore our wide network 
         of library service centers across the country. Find your nearest district and see how 
         we deliver knowledge right to your doorstep.
@@ -57,13 +57,13 @@ const Coverage = () => {
           </svg>
           <input
             type="search"
-            className="grow outline-none text-gray-700"
+            className="grow outline-none text-blue-900"
             name="location"
             placeholder="Search district..."
           />
         </label>
 
-        <button type="submit" className="btn btn-neutral bg-blue-600 text-white hover:bg-blue-700 transition rounded-lg px-4 py-2">
+        <button type="submit" className="btn btn-neutral bg-blue-900 text-white hover:bg-blue-700 transition rounded-lg px-4 py-2">
           Search
         </button>
       </form>
@@ -84,7 +84,7 @@ const Coverage = () => {
           {ServiceCenters.map((center, index) => (
             <Marker key={index} position={[center.latitude, center.longitude]}>
               <Popup>
-                <strong className="text-blue-600">{center.district}</strong>
+                <strong className="text-blue-900">{center.district}</strong>
                 <br />
                 Service Area: {center.covered_area.join(', ')}.
               </Popup>

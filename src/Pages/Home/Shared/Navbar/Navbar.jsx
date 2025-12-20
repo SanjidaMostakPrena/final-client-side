@@ -12,7 +12,7 @@ const Navbar = () => {
 
   if (loading) {
     return (
-      <div className="navbar bg-gradient-to-r from-indigo-50 to-teal-50 shadow-lg px-4">
+      <div className="navbar bg-gradient-to-r from-indigo-300 to-teal-500 shadow-lg px-4">
         <Logo />
         <p className="ml-4 text-indigo-700 font-semibold">Loading...</p>
       </div>
@@ -20,7 +20,7 @@ const Navbar = () => {
   }
 
   return (
-    <div className="navbar bg-gradient-to-r from-indigo-50 to-teal-50 shadow-lg px-4 md:px-8">
+    <div className="navbar bg-gradient-to-r from-indigo-50 to-teal-500 shadow-lg px-4  md:px-8">
       {/* Left */}
       <div className="navbar-start">
         <Logo />
