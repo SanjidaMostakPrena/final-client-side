@@ -7,11 +7,11 @@ const AllBooks = () => {
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [sort, setSort] = useState("");
-
+ 
   // Fetch books from server with search & sort
   const fetchBooks = async (currentSearch = search, currentSort = sort) => {
     try {
-      let url = `https://bookcourier.vercel.app/books?`;
+      let url = `  http://localhost:5000/books?`;
       if (currentSearch) url += `search=${encodeURIComponent(currentSearch)}&`;
       if (currentSort) url += `sort=${currentSort}`;
       const res = await fetch(url);
@@ -88,10 +88,10 @@ const AllBooks = () => {
                 Price: ${book.price}
               </p>
               <p className="text-gray-700 mb-4 flex-1">{book.description}</p>
-              
-              
+
+
               <Link
-                to={`/books/${book._id}`} 
+                to={`/books/${book._id}`}
                 className="mt-auto inline-block w-full bg-gradient-to-r from-teal-400 to-indigo-500 hover:from-indigo-500 hover:to-teal-400 text-white py-2 rounded-xl font-semibold transition-all duration-300 text-center"
               >
                 View Details

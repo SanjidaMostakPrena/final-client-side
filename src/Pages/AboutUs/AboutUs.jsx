@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { FaBookOpen, FaTruck, FaUsers, FaMapMarkedAlt } from "react-icons/fa";
 
 const AboutUs = () => {
+  
   return (
     <div className="bg-gradient-to-b from-indigo-50 to-blue-50 min-h-screen">
 

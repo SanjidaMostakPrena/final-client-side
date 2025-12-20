@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from "react";
 import {
   createUserWithEmailAndPassword,
@@ -40,53 +41,60 @@ const AuthProvider = ({ children }) => {
     setLoading(false);
   };
 
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
-      if (!currentUser) {
-        setUser(null);
-        setRole(null);
-        setLoading(false);
-        return;
+ useEffect(() => {
+  const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+    if (!currentUser) {
+      setUser(null);
+      setRole(null);
+      localStorage.removeItem("access-token"); // optional safe
+      setLoading(false);
+      return;
+    }
+
+    try {
+      // ✅ ONLY FETCH USER (NO SAVE HERE)
+      const res = await fetch(
+        `http://localhost:5000/users/${currentUser.email}`
+      );
+
+      if (!res.ok) throw new Error("User not found");
+
+      const data = await res.json();
+      setUser(data);
+      setRole(data.role || "user");
+
+      // 🔐 ===== JWT TOKEN HERE (AI CODER BOSBE ETAI) =====
+      const jwtRes = await fetch("http://localhost:5000/jwt", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: currentUser.email }),
+      });
+
+      const jwtData = await jwtRes.json();
+      if (jwtData.token) {
+        localStorage.setItem("access-token", jwtData.token);
       }
+      // 🔐 ===== JWT END =====
 
-      try {
-        // Save or update user in MongoDB
-        await fetch("https://bookcourier.vercel.app", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            name: currentUser.displayName || "N/A",
-            email: currentUser.email,
-            uid: currentUser.uid,
-            role: "user",
-            loginMethod: currentUser.providerId || "email",
-            createdAt: new Date(),
-          }),
-        });
+    } catch (err) {
+      console.error("MongoDB fetch error:", err);
 
-        // Fetch full user document from MongoDB
-        const res = await fetch(`https://bookcourier.vercel.app/${currentUser.email}`);
-        if (!res.ok) throw new Error("User not found in MongoDB");
+      // fallback (firebase user only)
+      setUser({
+        name: currentUser.displayName || "N/A",
+        email: currentUser.email,
+        uid: currentUser.uid,
+        role: "user",
+      });
+      setRole("user");
+    } finally {
+      setLoading(false);
+    }
+  });
 
-        const data = await res.json();
-        setUser(data);
-        setRole(data?.role || "user");
-      } catch (err) {
-        console.error("Profile fetch error:", err);
-        setUser({
-          name: currentUser.displayName || "N/A",
-          email: currentUser.email,
-          uid: currentUser.uid,
-          role: "user",
-        });
-        setRole("user");
-      } finally {
-        setLoading(false);
-      }
-    });
+  return () => unsubscribe();
+}, []);
 
-    return () => unsubscribe();
-  }, []);
 
   const authInfo = {
     user,
@@ -98,7 +106,11 @@ const AuthProvider = ({ children }) => {
     logout,
   };
 
-  return <AuthContext.Provider value={authInfo}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={authInfo}>
+      {children}
+    </AuthContext.Provider>
+  );
 };
 
 export default AuthProvider;

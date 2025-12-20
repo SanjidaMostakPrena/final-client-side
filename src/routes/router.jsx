@@ -11,7 +11,7 @@ import Login from "./Auth/Login/Login";
 import Register from "./Auth/Register/Register";
 import MyProfile from "../Pages/Admin/MyProfile";
 import MyOrders from "../Pages/User/MyOrders";
-import Payment from "../Pages/User/Payment";
+
 import Invoices from "../Pages/User/Invoices";
 import AllUsers from "../Pages/Admin/AllUsers";
 import ManageBooks from "../Pages/Admin/ManageBooks";
@@ -24,6 +24,8 @@ import AboutUs from "../Pages/AboutUs/AboutUs";
 import MyWishlist from "../Pages/MyWishlist/MyWishlist";
 import Dashboard from "../Pages/Dashboard/Dashboard";
 import LibrarianOrders from "../Pages/Laibrarian/LibrarianOrders";
+import PaymentSuccess from "../Pages/User/PaymentSucces";
+
 export const router = createBrowserRouter([
  
   {
@@ -41,7 +43,7 @@ export const router = createBrowserRouter([
         path: "books",
         element: <AllBooks />,
         loader: async () => {
-  const res = await fetch("https://bookcourier.vercel.app/books"); 
+  const res = await fetch("http://localhost:5000/books"); 
   if (!res.ok) throw new Error("Failed to fetch books");
   return res.json();
 
@@ -96,17 +98,12 @@ export const router = createBrowserRouter([
       { path: "my-book", element: <MyBook /> },
       
 
-
-  
-
-
-
-
       { path: "edit-book/:id", element: <EditBook/> },
       { path: "my-orders", element: <MyOrders /> },
       { path: "my-profile", element: <MyProfile /> },
       { path: "invoices", element: <Invoices /> },
-      { path: "payment/:id", element: <Payment /> },
+      { path: "payment-success", element: <PaymentSuccess></PaymentSuccess>},
+ 
      
 
 

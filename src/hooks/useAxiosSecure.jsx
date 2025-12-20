@@ -1,14 +1,33 @@
-// src/hooks/useAxiosSecure.js
+// // src/hooks/useAxiosSecure.js
+// import axios from "axios";
+
+// const useAxiosSecure = () => {
+//   const axiosSecure = axios.create({
+//     baseURL: "http://localhost:5000", 
+//   });
+
+  
+//   axiosSecure.interceptors.request.use((config) => {
+    
+//     return config;
+//   });
+
+//   return axiosSecure;
+// };
+
+// export default useAxiosSecure;
 import axios from "axios";
 
 const useAxiosSecure = () => {
   const axiosSecure = axios.create({
-    baseURL: "https://bookcourier.vercel.app", 
+    baseURL: "http://localhost:5000",
   });
 
-  
   axiosSecure.interceptors.request.use((config) => {
-    
+    const token = localStorage.getItem("access-token");
+    if (token) {
+      config.headers.authorization = `Bearer ${token}`;
+    }
     return config;
   });
 

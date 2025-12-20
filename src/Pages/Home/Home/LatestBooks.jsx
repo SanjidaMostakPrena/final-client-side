@@ -9,7 +9,7 @@ const LatestBooks = () => {
   // Fetch books from server
   const fetchBooks = async () => {
     try {
-      const res = await fetch("https://bookcourier.vercel.app/books/latest");
+      const res = await fetch("  http://localhost:5000/books/latest");
 
       if (!res.ok) throw new Error("Failed to fetch books");
 
