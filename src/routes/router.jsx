@@ -4,7 +4,7 @@ import RootLayout from "../Layout/RootLayout";
 import AuthLayout from "../Layout/AuthLayout";
 import DashboardLayout from "../Layout/DashboardLayout";
 import Home from "../Pages/Home/Home/Home";
-import Coverage from "../Pages/Home/Reviews/Coverage/Coverage";
+
 import AllBooks from "../Pages/AllBooks/AllBooks";
 import BookDetails from "../Pages/BookDetails/BookDetails";
 import Login from "./Auth/Login/Login";
@@ -25,6 +25,7 @@ import MyWishlist from "../Pages/MyWishlist/MyWishlist";
 import Dashboard from "../Pages/Dashboard/Dashboard";
 import LibrarianOrders from "../Pages/Laibrarian/LibrarianOrders";
 import PaymentSuccess from "../Pages/User/PaymentSucces";
+import Coverage from "../Pages/Home/Reviews/Coverage/Coverage";
 
 export const router = createBrowserRouter([
  
@@ -33,7 +34,11 @@ export const router = createBrowserRouter([
     element: <RootLayout />,
     children: [
       { index: true, element: <Home /> },
-      { path: "coverage", element: <Coverage /> },
+     {
+  path: "coverage",
+  element: <Coverage />
+},
+
 
       {
         path: "/about",          // ✅ this path
