@@ -14,7 +14,7 @@ const Register = () => {
   const adminEmails = ["admin1@gmail.com"];
 
   const saveUserToDB = async (user) => {
-    const res = await fetch("https://courierapp-three.vercel.app/users", {
+    const res = await fetch(" http://localhost:5000/users", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(user)
@@ -35,7 +35,7 @@ const Register = () => {
         };
         await saveUserToDB(user);
         toast.success(`Welcome ${data.name}!`);
-        navigate("/"); // Navigate to home
+        navigate("/");
       })
       .catch(err => toast.error(err.message));
   };
@@ -54,7 +54,7 @@ const Register = () => {
           createdAt: new Date()
         });
         toast.success(`Welcome ${user.displayName || user.email}!`);
-        navigate("/"); // Navigate to home
+        navigate("/");
       })
       .catch(err => toast.error(err.message));
   };

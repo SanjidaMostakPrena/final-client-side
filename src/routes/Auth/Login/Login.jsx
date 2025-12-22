@@ -21,7 +21,7 @@ const Login = () => {
       .then((result) => {
         console.log("Logged In:", result.user);
         toast.success(`Welcome back ${result.user.email}`);
-        navigate("/"); // Navigate to home
+        navigate("/");
       })
       .catch((error) => {
         console.error("Firebase Error:", error.message);
@@ -46,7 +46,7 @@ const Login = () => {
           createdAt: new Date(),
         };
 
-        fetch("https://courierapp-three.vercel.app/users", {
+        fetch(" http://localhost:5000/users", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(userData),

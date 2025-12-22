@@ -10,36 +10,35 @@ const MyBooks = () => {
   const location = useLocation();
   const { user } = useAuth();
 
-  // Fetch books function
+ 
   const fetchBooks = () => {
     if (user?.email) {
-      fetch(`https://courierapp-three.vercel.app/librarian/books?email=${user.email}`)
+      fetch(`http://localhost:5000/librarian/books?email=${user.email}`)
         .then((res) => res.json())
         .then((data) => setBooks(data))
         .catch((err) => console.error(err));
     }
   };
 
-  // 1️⃣ Page load বা user change হলে fetch
   useEffect(() => {
     if (user?.email) {
       fetchBooks();
     }
   }, [user]);
 
-  // 2️⃣ Edit থেকে redirect আসলে fetch & toast
+  
   useEffect(() => {
     if (location.state?.updated) {
       toast.success("📚 Book updated successfully!");
-      fetchBooks(); // updated flag থাকলে নতুন ডাটা
-      window.history.replaceState({}, document.title); // flag clear
+      fetchBooks(); 
+      window.history.replaceState({}, document.title); 
     }
   }, [location.state?.updated]);
 
   const togglePublish = (id, currentStatus) => {
     const newStatus = currentStatus === "published" ? "unpublished" : "published";
 
-    fetch(`https://courierapp-three.vercel.app/books/${id}`, {
+    fetch(`http://localhost:5000/books/${id}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ status: newStatus }),

@@ -27,6 +27,7 @@ import PaymentSuccess from "../Pages/User/PaymentSucces";
 import Coverage from "../Pages/Home/Reviews/Coverage/Coverage";
 import MyBook from "../Pages/Laibrarian/MyBook";
 import PrivateRoute from "../routes/PrivateRoute";
+import ErrorPage from "../Pages/Error/ErrorPage";
 
 export const router = createBrowserRouter([
  
@@ -42,14 +43,14 @@ export const router = createBrowserRouter([
 
 
       {
-        path: "/about",          // ✅ this path
-        element: <AboutUs/> // ✅ this component
+        path: "/about",          
+        element: <AboutUs/> 
       },
       {
         path: "books",
         element: <AllBooks />,
         loader: async () => {
-  const res = await fetch("https://courierapp-three.vercel.app/books"); 
+  const res = await fetch(" http://localhost:5000/books"); 
   if (!res.ok) throw new Error("Failed to fetch books");
   return res.json();
 
@@ -103,11 +104,13 @@ export const router = createBrowserRouter([
       { path: "invoices", element: <Invoices /> },
       { path: "payment-success", element: <PaymentSuccess></PaymentSuccess>},
  
-     
+      
+ 
 
 
     ],
   },
 
-  { path: "*", element: <Navigate to="/" /> },
+  { path: "*", element: <ErrorPage /> 
+ },
 ]);

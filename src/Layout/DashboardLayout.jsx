@@ -9,7 +9,7 @@ const DashboardLayout = () => {
   useEffect(() => {
     if (user?.email) {
       // ✅ Correct API endpoint
-      fetch(`https://courierapp-three.vercel.app/users/${user.email}`)
+      fetch(` http://localhost:5000/users/${user.email}`)
         .then(res => {
           if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
           return res.json();

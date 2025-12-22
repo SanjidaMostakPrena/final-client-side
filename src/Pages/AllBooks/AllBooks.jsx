@@ -10,7 +10,7 @@ const AllBooks = () => {
 
   const fetchBooks = async (currentSearch = search, currentSort = sort) => {
     try {
-      let url = `https://courierapp-three.vercel.app/books?`;
+      let url = `http://localhost:5000/books?`;
       if (currentSearch) url += `search=${encodeURIComponent(currentSearch)}&`;
       if (currentSort) url += `sort=${currentSort}`;
       const res = await fetch(url);
