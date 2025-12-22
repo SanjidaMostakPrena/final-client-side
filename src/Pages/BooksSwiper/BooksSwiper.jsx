@@ -38,13 +38,13 @@ const booksData = [
 
 const BooksSwiper = () => {
   return (
-    <section className="my-24 py-20 bg-gradient-to-b from-indigo-50 via-white to-teal-50">
+    <section className="my-24 py-20 bg-white text-black">
       {/* Section Heading */}
       <div className="text-center max-w-3xl mx-auto mb-16 px-4">
-        <h3 className="text-4xl md:text-5xl font-bold mb-4 text-indigo-900">
+        <h3 className="text-4xl md:text-5xl font-bold mb-4 text-black">
           Why Reading These Books Matters
         </h3>
-        <p className="text-indigo-900 text-lg">
+        <p className="text-black text-lg">
            Timeless novels and stories that shaped English literature.
         </p>
       </div>
@@ -80,7 +80,7 @@ const BooksSwiper = () => {
         >
           {booksData.map((book) => (
             <SwiperSlide key={book.id}>
-              <div className="group bg-white/80 backdrop-blur rounded-2xl shadow-lg p-5 text-center text-indigo-900 hover:shadow-2xl hover:-translate-y-2 transition-all duration-500">
+              <div className="group bg-white border border-gray-300 rounded-2xl shadow-lg p-5 text-center text-black hover:shadow-2xl hover:-translate-y-2 transition-all duration-500">
                 
                 {/* Book Image */}
                 <div className="overflow-hidden rounded-xl mb-4 aspect-[3/4]">
@@ -93,16 +93,16 @@ const BooksSwiper = () => {
 
                 {/* Book Info */}
                 <h3 className="text-xl font-semibold mb-1">{book.name}</h3>
-                <p className="text-indigo-700 text-sm mb-4">{book.author}</p>
+                <p className="text-black text-sm mb-4">{book.author}</p>
 
                 {/* Author */}
                 <div className="flex items-center justify-center gap-3">
                   <img
                     src={book.authorImage}
                     alt={book.author}
-                    className="w-10 h-10 rounded-full border-2 border-teal-400"
+                    className="w-10 h-10 rounded-full border-2 border-black"
                   />
-                  <p className="text-sm text-gray-500 font-medium">
+                  <p className="text-sm text-black font-medium">
                     Author / Reviewer
                   </p>
                 </div>
@@ -116,117 +116,3 @@ const BooksSwiper = () => {
 };
 
 export default BooksSwiper;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

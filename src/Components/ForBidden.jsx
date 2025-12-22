@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Lock } from "lucide-react"; // if you use lucide-react, optional
+import { Lock } from "lucide-react"; 
 
 const ForBidden = () => {
     return (

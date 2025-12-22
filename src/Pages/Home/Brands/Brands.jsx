@@ -4,7 +4,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay } from 'swiper/modules';
 
 const bookNames = [
-"Alice in Wonderland",
+  "Alice in Wonderland",
   "Harry Potter",
   "Charlie and the Chocolate Factory",
   "Matilda",
@@ -19,20 +19,18 @@ const bookNames = [
   "Rikki-Tikki-Tavi",
   "The Importance of Being Earnest",
   "Three Men in a Boat"
-
- 
 ];
 
 const BooksCarousel = () => {
   return (
-    <div className="py-24 bg-gradient-to-br from-indigo-50 via-white to-cyan-50">
+    <div className="py-24 bg-white text-black">
 
       {/* Heading */}
       <div className="text-center mb-16">
-        <h2 className="text-4xl md:text-5xl font-extrabold text-indigo-900">
+        <h2 className="text-4xl md:text-5xl font-extrabold text-black">
           Explore Our Book Collection
         </h2>
-        <p className="mt-4 text-slate-600 max-w-2xl mx-auto">
+        <p className="mt-4 text-black max-w-2xl mx-auto">
            Curated books for learning, reading, and fun.
         </p>
       </div>
@@ -52,12 +50,12 @@ const BooksCarousel = () => {
           <SwiperSlide key={idx} className="flex justify-center">
 
             {/* Book Card */}
-            <div className="relative w-full h-44 rounded-3xl bg-white/70 backdrop-blur-md border border-indigo-100 shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 flex items-center justify-center">
+            <div className="relative w-full h-44 rounded-3xl bg-white border border-gray-300 shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 flex items-center justify-center">
               
               {/* Decorative spine */}
-              <span className="absolute left-0 top-0 h-full w-2 rounded-l-3xl bg-gradient-to-b from-indigo-500 to-cyan-400"></span>
+              <span className="absolute left-0 top-0 h-full w-2 rounded-l-3xl bg-gradient-to-b from-black to-gray-700"></span>
 
-              <h3 className="text-xl md:text-2xl font-semibold text-indigo-900 text-center px-6">
+              <h3 className="text-xl md:text-2xl font-semibold text-black text-center px-6">
                 {name}
               </h3>
             </div>
@@ -68,41 +66,41 @@ const BooksCarousel = () => {
 
       {/* Why Choose Us */}
       <section className="mt-28 px-6 md:px-24">
-        <h2 className="text-4xl font-bold text-center text-indigo-900 mb-14">
+        <h2 className="text-4xl font-bold text-center text-black mb-14">
           Why Choose BookCourier
         </h2>
 
         <div className="grid md:grid-cols-3 gap-10">
           
           {/* Card 1 */}
-          <div className="p-8 rounded-3xl bg-white shadow-md hover:shadow-2xl transition duration-500 border border-indigo-100 text-center">
+          <div className="p-8 rounded-3xl bg-white shadow-md hover:shadow-2xl transition duration-500 border border-gray-300 text-center text-black">
             <div className="text-4xl mb-4">🚚</div>
-            <h3 className="text-2xl font-semibold text-indigo-900 mb-3">
+            <h3 className="text-2xl font-semibold mb-3">
               Fast Delivery
             </h3>
-            <p className="text-slate-600">
+            <p>
                Timeless novels and stories that shaped English literature.
             </p>
           </div>
 
           {/* Card 2 */}
-          <div className="p-8 rounded-3xl bg-white shadow-md hover:shadow-2xl transition duration-500 border border-indigo-100 text-center">
+          <div className="p-8 rounded-3xl bg-white shadow-md hover:shadow-2xl transition duration-500 border border-gray-300 text-center text-black">
             <div className="text-4xl mb-4">📚</div>
-            <h3 className="text-2xl font-semibold text-indigo-900 mb-3">
+            <h3 className="text-2xl font-semibold mb-3">
               Quality Collection
             </h3>
-            <p className="text-slate-600">
+            <p>
               Carefully selected books trusted by students and professionals.
             </p>
           </div>
 
           {/* Card 3 */}
-          <div className="p-8 rounded-3xl bg-white shadow-md hover:shadow-2xl transition duration-500 border border-indigo-100 text-center">
+          <div className="p-8 rounded-3xl bg-white shadow-md hover:shadow-2xl transition duration-500 border border-gray-300 text-center text-black">
             <div className="text-4xl mb-4"></div>
-            <h3 className="text-2xl font-semibold text-indigo-900 mb-3">
+            <h3 className="text-2xl font-semibold mb-3">
               Skill Growth
             </h3>
-            <p className="text-slate-600">
+            <p>
               Learn faster, build stronger foundations, and grow your tech skills.
             </p>
           </div>

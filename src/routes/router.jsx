@@ -15,8 +15,7 @@ import MyOrders from "../Pages/User/MyOrders";
 import Invoices from "../Pages/User/Invoices";
 import AllUsers from "../Pages/Admin/AllUsers";
 import ManageBooks from "../Pages/Admin/ManageBooks";
-import PrivateRoute from "./PrivateRoute";
-import MyBook from "../Pages/Laibrarian/MyBook";
+
 import Order from "../Pages/Laibrarian/LibrarianOrders";
 import AddBook from "../Pages/Laibrarian/AddBook";
 import EditBook from "../Pages/Laibrarian/EditBook";
@@ -26,6 +25,8 @@ import Dashboard from "../Pages/Dashboard/Dashboard";
 import LibrarianOrders from "../Pages/Laibrarian/LibrarianOrders";
 import PaymentSuccess from "../Pages/User/PaymentSucces";
 import Coverage from "../Pages/Home/Reviews/Coverage/Coverage";
+import MyBook from "../Pages/Laibrarian/MyBook";
+import PrivateRoute from "../routes/PrivateRoute";
 
 export const router = createBrowserRouter([
  
@@ -60,14 +61,7 @@ export const router = createBrowserRouter([
      { path: "MyWishlist", element:<MyWishlist></MyWishlist>},
      
 
-      {
-      path: "add-book",
-      element: (
-        <PrivateRoute>
-          <AddBook />
-        </PrivateRoute>
-      ),
-    },
+     
   
     ],
   },
@@ -100,7 +94,7 @@ export const router = createBrowserRouter([
 
 { path: "my-wishlist", element: <MyWishlist /> },
 
-      { path: "my-book", element: <MyBook /> },
+      { path: "my-book", element: <MyBook/> },
       
 
       { path: "edit-book/:id", element: <EditBook/> },

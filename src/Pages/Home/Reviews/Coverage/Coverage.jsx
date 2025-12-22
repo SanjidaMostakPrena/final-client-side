@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect } from "react";
 import { MapContainer, Marker, Popup, TileLayer, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 
-// Fly animation
+
 const FlyToMarker = ({ coords }) => {
   const map = useMap();
   useEffect(() => {

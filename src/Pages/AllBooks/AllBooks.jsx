@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom"; // <-- import Link
+import { Link } from "react-router-dom"; 
 
 const AllBooks = () => {
   const [books, setBooks] = useState([]);
@@ -8,7 +8,6 @@ const AllBooks = () => {
   const [search, setSearch] = useState("");
   const [sort, setSort] = useState("");
  
-  // Fetch books from server with search & sort
   const fetchBooks = async (currentSearch = search, currentSort = sort) => {
     try {
       let url = `  http://localhost:5000/books?`;

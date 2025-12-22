@@ -6,7 +6,7 @@ const LatestBooks = () => {
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Fetch books from server
+
   const fetchBooks = async () => {
     try {
       const res = await fetch("  http://localhost:5000/books/latest");
