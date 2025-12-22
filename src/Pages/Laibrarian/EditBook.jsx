@@ -22,7 +22,7 @@ const EditBook = () => {
   useEffect(() => {
     const fetchBook = async () => {
       try {
-        const res = await axios.get(`http://localhost:5000/books/${id}`);
+        const res = await axios.get(`https://courierapp-three.vercel.app/books/${id}`);
         setBook({ ...res.data });
         setLoading(false);
       } catch (err) {
@@ -40,7 +40,7 @@ const EditBook = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.patch(`http://localhost:5000/books/${id}`, book);
+      await axios.patch(`https://courierapp-three.vercel.app/books/${id}`, book);
       toast.success("Book updated successfully ✅");
       navigate("/dashboard/my-book", { state: { updated: true } });
 

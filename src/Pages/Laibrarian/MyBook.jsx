@@ -10,10 +10,10 @@ const MyBooks = () => {
   const location = useLocation();
   const { user } = useAuth();
 
- 
+
   const fetchBooks = () => {
     if (user?.email) {
-      fetch(`http://localhost:5000/librarian/books?email=${user.email}`)
+      fetch(`https://courierapp-three.vercel.app/librarian/books?email=${user.email}`)
         .then((res) => res.json())
         .then((data) => setBooks(data))
         .catch((err) => console.error(err));
@@ -26,19 +26,19 @@ const MyBooks = () => {
     }
   }, [user]);
 
-  
+
   useEffect(() => {
     if (location.state?.updated) {
       toast.success("📚 Book updated successfully!");
-      fetchBooks(); 
-      window.history.replaceState({}, document.title); 
+      fetchBooks();
+      window.history.replaceState({}, document.title);
     }
   }, [location.state?.updated]);
 
   const togglePublish = (id, currentStatus) => {
     const newStatus = currentStatus === "published" ? "unpublished" : "published";
 
-    fetch(`http://localhost:5000/books/${id}`, {
+    fetch(`https://courierapp-three.vercel.app/books/${id}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ status: newStatus }),

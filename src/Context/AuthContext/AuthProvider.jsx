@@ -54,7 +54,7 @@ const AuthProvider = ({ children }) => {
       try {
         // ✅ ONLY FETCH USER (NO SAVE HERE)
         const res = await fetch(
-          ` http://localhost:5000/users/${currentUser.email}`
+          ` https://courierapp-three.vercel.app/users/${currentUser.email}`
         );
 
         if (!res.ok) throw new Error("User not found");
@@ -64,7 +64,7 @@ const AuthProvider = ({ children }) => {
         setRole(data.role || "user");
 
         // 🔐 ===== JWT TOKEN HERE (AI CODER BOSBE ETAI) =====
-        const jwtRes = await fetch(" http://localhost:5000/jwt", {
+        const jwtRes = await fetch(" https://courierapp-three.vercel.app/jwt", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ email: currentUser.email }),
