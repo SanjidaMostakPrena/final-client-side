@@ -11,7 +11,7 @@ const LibrarianOrders = () => {
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
 
-  // Fetch all orders for books added by this librarian
+
   const { data: orders = [], refetch, isLoading } = useQuery({
     queryKey: ["librarian-orders", user?.email],
     enabled: !!user?.email,
