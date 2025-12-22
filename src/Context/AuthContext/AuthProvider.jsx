@@ -41,59 +41,59 @@ const AuthProvider = ({ children }) => {
     setLoading(false);
   };
 
- useEffect(() => {
-  const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
-    if (!currentUser) {
-      setUser(null);
-      setRole(null);
-      localStorage.removeItem("access-token"); // optional safe
-      setLoading(false);
-      return;
-    }
-
-    try {
-      // ✅ ONLY FETCH USER (NO SAVE HERE)
-      const res = await fetch(
-        `http://localhost:5000/users/${currentUser.email}`
-      );
-
-      if (!res.ok) throw new Error("User not found");
-
-      const data = await res.json();
-      setUser(data);
-      setRole(data.role || "user");
-
-      // 🔐 ===== JWT TOKEN HERE (AI CODER BOSBE ETAI) =====
-      const jwtRes = await fetch("http://localhost:5000/jwt", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: currentUser.email }),
-      });
-
-      const jwtData = await jwtRes.json();
-      if (jwtData.token) {
-        localStorage.setItem("access-token", jwtData.token);
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+      if (!currentUser) {
+        setUser(null);
+        setRole(null);
+        localStorage.removeItem("access-token"); // optional safe
+        setLoading(false);
+        return;
       }
-      // 🔐 ===== JWT END =====
 
-    } catch (err) {
-      console.error("MongoDB fetch error:", err);
+      try {
+        // ✅ ONLY FETCH USER (NO SAVE HERE)
+        const res = await fetch(
+          `https://courierapp-three.vercel.app/users/${currentUser.email}`
+        );
 
-      // fallback (firebase user only)
-      setUser({
-        name: currentUser.displayName || "N/A",
-        email: currentUser.email,
-        uid: currentUser.uid,
-        role: "user",
-      });
-      setRole("user");
-    } finally {
-      setLoading(false);
-    }
-  });
+        if (!res.ok) throw new Error("User not found");
 
-  return () => unsubscribe();
-}, []);
+        const data = await res.json();
+        setUser(data);
+        setRole(data.role || "user");
+
+        // 🔐 ===== JWT TOKEN HERE (AI CODER BOSBE ETAI) =====
+        const jwtRes = await fetch("https://courierapp-three.vercel.app/jwt", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email: currentUser.email }),
+        });
+
+        const jwtData = await jwtRes.json();
+        if (jwtData.token) {
+          localStorage.setItem("access-token", jwtData.token);
+        }
+        // 🔐 ===== JWT END =====
+
+      } catch (err) {
+        console.error("MongoDB fetch error:", err);
+
+        // fallback (firebase user only)
+        setUser({
+          name: currentUser.displayName || "N/A",
+          email: currentUser.email,
+          uid: currentUser.uid,
+          role: "user",
+        });
+        setRole("user");
+      } finally {
+        setLoading(false);
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
 
 
   const authInfo = {

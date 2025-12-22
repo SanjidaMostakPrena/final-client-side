@@ -14,7 +14,7 @@ const Register = () => {
   const adminEmails = ["admin1@gmail.com"];
 
   const saveUserToDB = async (user) => {
-    const res = await fetch("http://localhost:5000/users", {
+    const res = await fetch("https://courierapp-three.vercel.app/users", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(user)
@@ -86,7 +86,7 @@ const Register = () => {
           <input
             type="password"
             placeholder="Password"
-            {...register("password", { required: true, minLength:6 })}
+            {...register("password", { required: true, minLength: 6 })}
             className="input input-bordered w-full h-12 border-teal-300 focus:border-teal-500 focus:ring focus:ring-teal-100 rounded-lg"
           />
           {errors.password && <p className="text-red-500 text-sm">Password is required (6+ chars)</p>}

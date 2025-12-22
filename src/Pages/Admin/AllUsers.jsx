@@ -10,7 +10,7 @@ const AllUsers = () => {
 
   const fetchUsers = async () => {
     try {
-      const res = await fetch("  http://localhost:5000/users");
+      const res = await fetch("  https://courierapp-three.vercel.app/users");
       if (!res.ok) throw new Error("Failed to fetch users");
       const data = await res.json();
       setUsers(data);
@@ -56,7 +56,7 @@ const AllUsers = () => {
 
   const updateRole = async (userId, newRole) => {
     try {
-      const res = await fetch(`http://localhost:5000/users/${userId}`, {
+      const res = await fetch(`https://courierapp-three.vercel.app/users/${userId}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ role: newRole }),
