@@ -208,9 +208,12 @@ const AllBooks = () => {
       dark:from-gray-900 dark:via-gray-800 dark:to-gray-900
       transition-colors duration-500"
     >
-      <h1 className="text-4xl md:text-5xl font-bold text-center mb-12 text-indigo-900 dark:text-indigo-200">
-        All Books
-      </h1>
+      <div className="max-w-7xl mx-auto px-4 pt-10">
+  <h1 className="text-4xl md:text-5xl font-bold text-center mb-12 text-indigo-900 dark:text-indigo-200">
+    All Books
+  </h1>
+</div>
+
 
       {/* Filters */}
       <div className="flex flex-col sm:flex-row justify-between items-center mb-12 gap-4">

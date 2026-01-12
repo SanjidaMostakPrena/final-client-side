@@ -67,11 +67,13 @@ const Coverage = () => {
 
   return (
     <section className="bg-white dark:bg-gray-900 transition-colors duration-500 min-h-screen px-4 py-14 max-w-7xl mx-auto">
+<div className="max-w-7xl mx-auto px-4 pt-10">
+  <h1 className="text-4xl md:text-5xl font-bold text-center mb-12 text-indigo-900 dark:text-indigo-200">
+    Nationwide Coverage
+  </h1>
+</div>
 
-      {/* Heading */}
-      <h2 className="text-4xl  md:text-5xl font-extrabold text-center text-indigo-900 dark:text-indigo-200 mb-4">
-        Nationwide Coverage
-      </h2>
+     
 
       <p className="text-center text-lg text-indigo-900 dark:text-gray-300 max-w-3xl mx-auto mb-10">
         BookCourier delivers books from libraries to homes across all 64 districts of Bangladesh. Search your district and explore our service reach.

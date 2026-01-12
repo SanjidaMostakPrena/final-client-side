@@ -23,9 +23,16 @@ const AboutUs = () => {
         animate={{ opacity: 1 }}
         transition={{ duration: 1 }}
       >
-        <h1 className="text-4xl md:text-5xl font-bold text-indigo-900 dark:text-indigo-200 mb-6">
+        <div>
+          
+        </div>
+        <div className="max-w-7xl mx-auto px-4 pt-10">
+  <h1 className="text-4xl md:text-5xl font-bold text-indigo-900 dark:text-indigo-200 mb-6">
           About <span className="text-teal-600 dark:text-teal-400">BookCourier</span>
         </h1>
+</div>
+
+        
         <p className="max-w-3xl mx-auto text-gray-600 dark:text-gray-300 text-lg">
           BookCourier is a modern online book delivery platform that connects readers
           with trusted libraries and delivers books safely to their doorstep.
