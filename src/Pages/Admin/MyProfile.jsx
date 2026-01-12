@@ -250,7 +250,7 @@ const MyProfile = () => {
           ) : (
             <button
               onClick={() => setEditMode(true)}
-              className="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-2 rounded-xl"
+              className="w-full bg-gradient-to-r from-teal-400 to-indigo-500 text-white py-2 rounded-xl"
             >
               Edit Profile
             </button>

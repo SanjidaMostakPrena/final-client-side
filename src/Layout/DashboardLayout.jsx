@@ -4,7 +4,7 @@ import useAuth from "../Hooks/useAuth";
 
 const DashboardLayout = () => {
   const { user } = useAuth();
-  const [role, setRole] = useState("user"); // default role = user
+  const [role, setRole] = useState("user"); 
 
   useEffect(() => {
     if (user?.email) {
