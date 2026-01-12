@@ -28,6 +28,7 @@ import Coverage from "../Pages/Home/Reviews/Coverage/Coverage";
 import MyBook from "../Pages/Laibrarian/MyBook";
 import PrivateRoute from "../routes/PrivateRoute";
 import ErrorPage from "../Pages/Error/ErrorPage";
+import PrivacyPolicy from "../Pages/PrivacyPolicy/PrivacyPolicy";
 
 export const router = createBrowserRouter([
  
@@ -46,6 +47,7 @@ export const router = createBrowserRouter([
         path: "/about",          
         element: <AboutUs/> 
       },
+        { path: "/privacy", element: <PrivacyPolicy></PrivacyPolicy> },
       {
         path: "books",
         element: <AllBooks />,
@@ -60,6 +62,7 @@ export const router = createBrowserRouter([
     { path: "books/:id", element: <BookDetails /> },
     { path: "register", element: <Register /> },
      { path: "MyWishlist", element:<MyWishlist></MyWishlist>},
+     
      
 
      
